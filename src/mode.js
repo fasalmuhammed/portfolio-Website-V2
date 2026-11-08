@@ -1,15 +1,11 @@
-// Switches between the creative world (index.html) and the professional site (pro.html).
-// The choice is remembered in localStorage; the inline script in each page's <head> reads it and redirects.
+// Switches between the professional site (index.html, the homepage) and the creative world (creative.html).
 // A full-screen curtain wipes in on the page being left and lifts on the page being entered.
-const KEY = 'fasal-mode'
 const WIPE = 'fasal-wipe'
 const LOOK = {
   pro: { bg: '#e9e3d9', ink: '#1d1b18', label: 'Professional mode' },
   creative: { bg: '#ffc93c', ink: '#14213d', label: 'Creative mode' },
 }
 const EASE = 'cubic-bezier(0.76, 0, 0.24, 1)'
-
-const remember = (mode) => { try { localStorage.setItem(KEY, mode) } catch {} }
 
 function curtain(mode) {
   const { bg, ink, label } = LOOK[mode]
@@ -28,7 +24,6 @@ function curtain(mode) {
 
 export function initModeSwitch(current, { arrive = false } = {}) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  remember(current)
 
   let wipe = null
   try { wipe = sessionStorage.getItem(WIPE); sessionStorage.removeItem(WIPE) } catch {}
@@ -43,7 +38,6 @@ export function initModeSwitch(current, { arrive = false } = {}) {
   document.querySelectorAll('[data-mode-switch]').forEach((link) => link.addEventListener('click', (e) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return
     const mode = link.dataset.modeSwitch
-    remember(mode)
     if (reduced) return
     e.preventDefault()
     try { sessionStorage.setItem(WIPE, mode) } catch {}
@@ -54,7 +48,6 @@ export function initModeSwitch(current, { arrive = false } = {}) {
   // coming back with the browser's back button restores the old page with its curtain still down
   window.addEventListener('pageshow', (e) => {
     if (!e.persisted) return
-    remember(current)
     document.querySelectorAll('.mode-curtain').forEach((c) => c.remove())
   })
 }

@@ -11,17 +11,17 @@ npm run build    # production build in dist/
 Deploy the `dist/` folder to any static host (Vercel, Netlify, Cloudflare Pages, Hostinger…).
 
 ## Two modes
-The site has a **creative mode** (`index.html`, the 3D world) and a **professional mode** (`pro.html`, an editorial site with 3D motion, no WebGL world).
-The toggle beside the logo switches between them with a full-screen wipe (`src/mode.js`), and the choice is remembered in the browser.
+The site has a **professional mode** (`index.html`, the homepage: an editorial site with 3D motion, no WebGL world) and a **creative mode** (`creative.html`, the 3D world).
+Every visit to `https://fasalmuhammed.in` opens professional mode. The toggle in the nav switches to the creative world and back with a full-screen wipe (`src/mode.js`).
 
-- Send `https://fasalmuhammed.in/?mode=pro` (or `/pro.html`) to open straight into professional mode.
-- `?mode=creative` switches back.
+- `https://fasalmuhammed.in/creative.html` (or `/?mode=creative`) opens the creative world directly.
+- Old `/pro.html` links redirect to the homepage (`vercel.json`).
 
 | File | What it does |
 |---|---|
-| `pro.html` | Professional page: editorial hero (wall, circle, portrait, FASAL), about, experience (timeline, toolkit, certifications), 3D project coverflow, services, FAQ, contact |
+| `index.html` | Professional page (homepage): editorial hero (wall, circle, portrait, FASAL), about, experience (timeline, toolkit, certifications), 3D project coverflow, services, FAQ, contact |
 | `src/pro/pro.css` | Its styles: beige/stone/charcoal, Gloock + Manrope (self-hosted via `@fontsource`) |
-| `src/pro/pro.js` | Lenis + GSAP ScrollTrigger: hero 3D intro and mouse depth, scroll scenes, coverflow, cube cursor, contact form (opens WhatsApp; number in `WHATSAPP`) |
+| `src/pro/pro.js` | Lenis + GSAP ScrollTrigger: hero 3D intro and mouse depth, scroll scenes, coverflow, cube cursor, contact form (emails leads via `src/lead.js`) |
 | `public/images/fasal-hero.webp` | The hero cut-out. Replace with a transparent WebP of the same framing to update it |
 | `PRODUCT.md`, `.impeccable/` | Product notes and design records used by the Impeccable skill |
 

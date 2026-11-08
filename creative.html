@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // the creative world is opened from the professional homepage's switch; ?mode=pro goes back there
+    (function () { try {
+      if (new URLSearchParams(location.search).get('mode') === 'pro') location.replace('/' + location.hash)
+    } catch (e) {} })()
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Muhammed Fasal · Full-stack & AI Engineer</title>
+  <meta name="description" content="Muhammed Fasal V builds websites, web apps, AI chatbots and automation for restaurants, clinics, shops, schools and startups. Based in Kozhikode, Kerala, working worldwide." />
+  <meta name="theme-color" content="#4ea8ff" />
+  <meta property="og:title" content="Muhammed Fasal · Full-stack & AI Engineer" />
+  <meta property="og:description" content="Websites, apps and AI that make your business shine." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fasalmuhammed.in/creative.html" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
+  <script>document.documentElement.classList.add('js')</script>
+  <style>
+    /* Critical CSS: paints the loader instantly; the rest of the page stays hidden until style.css is applied (main.js adds .css-ready). */
+    body { margin: 0; background: #bfe6ff; color: #14213d; font-family: "Poppins", "Segoe UI", system-ui, sans-serif; }
+    html.js:not(.css-ready) body > :not(#loader) { visibility: hidden; }
+    /* ---------- Loader ---------- */
+    .loader {
+      position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+      background: linear-gradient(#4ea8ff, #bfe6ff); overflow: hidden;
+    }
+    .loader__face { width: 150px; height: 150px; animation: hop 0.9s cubic-bezier(0.22, 1, 0.36, 1) infinite; filter: drop-shadow(0 12px 0 rgba(20, 33, 61, 0.18)); }
+    @keyframes hop { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-38px) scale(0.96, 1.04); } 80% { transform: translateY(0) scale(1.06, 0.94); } }
+    .loader__text { margin: 0; font-weight: 700; font-size: 18px; }
+    .loader__text b { font-variant-numeric: tabular-nums; }
+    .loader__bar { width: min(320px, 70vw); height: 18px; border: 3px solid #14213d; border-radius: 99px; background: #fff; overflow: hidden; box-shadow: 0 4px 0 #14213d; }
+    .loader__bar span { display: block; height: 100%; width: 100%; background: repeating-linear-gradient(-45deg, #ffc93c 0 12px, #ffb703 12px 24px); transform-origin: left; transform: scaleX(0); }
+    .loader__cloud { position: absolute; background: #fff; border-radius: 99px; opacity: 0.9; animation: drift 9s linear infinite; }
+    .loader__cloud::before, .loader__cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+    .loader__cloud::before { width: 55%; height: 160%; left: 15%; bottom: 30%; }
+    .loader__cloud::after { width: 40%; height: 130%; right: 12%; bottom: 25%; }
+    .c1 { width: 180px; height: 50px; top: 16%; left: -200px; }
+    .c2 { width: 120px; height: 36px; top: 70%; left: -140px; animation-duration: 12s; animation-delay: -4s; }
+    .c3 { width: 220px; height: 60px; top: 40%; left: -240px; animation-duration: 15s; animation-delay: -9s; }
+    @keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
+    html:not(.js) .loader { display: none; }
+  </style>
+</head>
+<body>
+  <!-- ============ LOADER ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__cloud c1"></div><div class="loader__cloud c2"></div><div class="loader__cloud c3"></div>
+    <img class="loader__face" src="/fasal/laugh.png" alt="" width="213" height="273" />
+    <p class="loader__text">Building Fasal's world… <b id="loaderCount">0</b>%</p>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+  </div>
+
+  <canvas id="world" aria-hidden="true"></canvas>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__left">
+      <a href="#top" class="nav__logo" aria-label="Back to top">Fasal<span>.</span></a>
+      <a href="/" class="mode-switch" data-mode-switch="pro">
+        <i class="mode-switch__knob" aria-hidden="true"></i><span><span class="mode-switch__long">Switch to </span>Professional Mode</span>
+      </a>
+    </div>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#industries">Industries</a>
+      <a href="#work">Work</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav__right">
+      <a href="#contact" class="btn btn--sun btn--small">Let's talk</a>
+      <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu__links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#industries">Industries</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <div class="progress"><span id="progress"></span></div>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__copy">
+        <p class="chip" data-hero><i class="dot"></i>Hi, I'm Fasal · open for new projects</p>
+        <h1 class="hero__title" aria-label="I build websites, apps and AI that make your business shine.">
+          <span class="line"><span class="line__in strip strip--cream" data-hero-line>I build websites,</span></span>
+          <span class="line"><span class="line__in strip strip--sun" data-hero-line>apps &amp; AI that make</span></span>
+          <span class="line"><span class="line__in strip strip--coral" data-hero-line>your business <span class="shine">shine<svg class="sparkle" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2l4 14 14 4-14 4-4 14-4-14L2 20l14-4z"/></svg></span></span></span>
+        </h1>
+        <p class="hero__lead bubble-card" data-hero>
+          Full-stack &amp; AI engineer from Kozhikode, Kerala. I design and build fast websites,
+          custom web apps, AI chatbots and automations for restaurants, clinics, shops, schools and startups.
+        </p>
+        <div class="hero__cta" data-hero>
+          <a href="#contact" class="btn btn--sun">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#work" class="btn btn--white">See my work</a>
+        </div>
+      </div>
+      <p class="hero__hint" data-hero><span class="mouse"><i></i></span>Scroll to join the adventure</p>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="scene" id="about">
+      <div class="panel panel--right" data-panel>
+        <p class="eyebrow">About me</p>
+        <h2 class="h2">The human behind <span class="u-coral">the code</span>.</h2>
+        <div class="polaroids" id="polaroids">
+          <figure class="polaroid" style="--r:-7deg"><img src="/photos/smile.jpg" alt="Fasal smiling in yellow sunglasses" width="675" height="1200" /><figcaption>Always smiling</figcaption></figure>
+          <figure class="polaroid" style="--r:4deg"><img src="/photos/forest.jpg" alt="Fasal standing in a banyan forest" width="900" height="1058" /><figcaption>Into the woods</figcaption></figure>
+          <figure class="polaroid" style="--r:-3deg"><img src="/photos/travel.jpg" alt="Fasal on a mountain trip with prayer flags" width="675" height="1200" /><figcaption>Mountain mode</figcaption></figure>
+          <figure class="polaroid" style="--r:6deg"><img src="/photos/waterfall.jpg" alt="Fasal at a waterfall with a rainbow" width="675" height="1200" /><figcaption>Rainbow hunter</figcaption></figure>
+        </div>
+        <p class="lead">
+          I'm an MCA graduate and a software developer at Finprov Learning who loves turning everyday business headaches into simple software.
+          Taking orders, booking slots, answering the same questions, updating spreadsheets.
+          I automate the boring parts so you can spend your time with customers.
+        </p>
+        <div class="facts">
+          <div class="fact fact--sun"><b class="counter" data-to="2">2</b><span>Client apps for real businesses</span></div>
+          <div class="fact fact--mint"><b class="counter" data-to="30" data-suffix="+">30+</b><span>Tools &amp; technologies</span></div>
+          <div class="fact fact--coral"><b>1</b><span>Point of contact, start to finish</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="scene" id="services">
+      <div class="panel panel--left panel--wide" data-panel>
+        <p class="eyebrow">What I build</p>
+        <h2 class="h2">Six ways I can help your business <span class="u-sun">grow</span>.</h2>
+        <div class="services">
+          <article class="svc" data-tilt>
+            <span class="svc__icon" style="--c:var(--sky)"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="26" rx="4"/><path d="M6 16h36M17 41h14M24 35v6"/></svg></span>
+            <h3>Business Websites</h3><p>Fast, mobile-first sites that rank on Google and turn visitors into enquiries.</p>
+          </article>
+          <article class="svc" data-tilt>
+            <span class="svc__icon" style="--c:var(--grape)"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="6" width="15" height="15" rx="3"/><rect x="27" y="6" width="15" height="15" rx="3"/><rect x="6" y="27" width="15" height="15" rx="3"/><path d="M34.5 27v15M27 34.5h15"/></svg></span>
+            <h3>Custom Web Apps</h3><p>Booking, ordering, inventory and admin systems built around how your team works.</p>
+          </article>
+          <article class="svc svc--hot" data-tilt>
+            <span class="svc__icon" style="--c:var(--coral)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 12h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H22l-8 7v-7h-4a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><circle cx="17" cy="23" r="1.8"/><circle cx="24" cy="23" r="1.8"/><circle cx="31" cy="23" r="1.8"/></svg></span>
+            <h3>AI Chatbots</h3><p>An assistant trained on your menu, services or FAQs that answers customers 24/7.</p>
+          </article>
+          <article class="svc" data-tilt>
+            <span class="svc__icon" style="--c:var(--mint)"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11.3 11.3l4.2 4.2M32.5 32.5l4.2 4.2M11.3 36.7l4.2-4.2M32.5 15.5l4.2-4.2"/></svg></span>
+            <h3>Automation</h3><p>Invoices, reports, reminders and data entry that happen on their own.</p>
+          </article>
+          <article class="svc" data-tilt>
+            <span class="svc__icon" style="--c:var(--sun)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 8h6l5 22h21l4-15H14"/><circle cx="19" cy="38" r="3"/><circle cx="35" cy="38" r="3"/></svg></span>
+            <h3>E-commerce</h3><p>Online stores and ordering with menus, carts and live order tracking.</p>
+          </article>
+          <article class="svc" data-tilt>
+            <span class="svc__icon" style="--c:var(--pink)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 42h36M12 34V22M20 34V14M28 34V26M36 34V8"/></svg></span>
+            <h3>Dashboards &amp; ML</h3><p>Turn messy spreadsheets into live dashboards, forecasts and smart picks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INDUSTRIES (pinned, 3D islands) ============ -->
+    <section class="industries" id="industries">
+      <div class="ind-head panel panel--small">
+        <p class="eyebrow">Industries</p>
+        <h2 class="h2 h2--sm">Built for <span class="u-mint">every kind</span> of business.</h2>
+        <p class="ind-head__sub">Keep scrolling and I'll hop across the islands. Each one is a business I can build for.</p>
+      </div>
+      <div class="speech" id="speech" aria-live="polite">
+        <b id="speechTitle">Restaurants &amp; Cafés</b>
+        <span id="speechText">Online menus, table ordering and kitchen screens.</span>
+      </div>
+      <ol class="ind-dots" id="indDots" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol>
+    </section>
+
+    <!-- ============ WORK ============ -->
+    <section class="scene scene--work" id="work">
+      <div class="work">
+        <div class="panel panel--small work__head" data-panel>
+          <p class="eyebrow">Selected work</p>
+          <h2 class="h2">Real systems, <span class="u-sun">real problems</span> solved.</h2>
+        </div>
+
+        <article class="project panel" style="--pc:var(--sky)">
+          <div class="mock mock--hostel" aria-hidden="true">
+            <div class="mock__bar"><i></i><i></i><i></i><span>hostel admin · Android &amp; web</span></div>
+            <div class="mock__body"><div class="mo-legend"><span>Free</span><span>Taken</span></div><div class="mo-rooms"><i></i><i class="t"></i><i></i><i class="t"></i><i class="t"></i><i></i><i></i><i class="t"></i><i></i><i></i><i class="t"></i><i></i></div></div>
+          </div>
+          <div class="project__info">
+            <span class="tag tag--sky">Freelance · Android &amp; Web</span>
+            <h3>Hostel Administration System</h3>
+            <p>Runs a boys' hostel across several buildings: rooms, residents, automatic monthly billing, fee collection, complaints and reports, with QR admissions and offline sync.</p>
+            <ul class="pills"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Firebase</li><li>Node.js</li></ul>
+            <span class="link link--plain">Client project</span>
+          </div>
+        </article>
+
+        <article class="project panel" style="--pc:var(--mint)">
+          <div class="mock mock--turf" aria-hidden="true">
+            <div class="mock__bar"><i></i><i></i><i></i><span>turf bookings · WhatsApp</span></div>
+            <div class="mock__body"><div class="mt-pitch"></div><div class="mh-rows"><p><i></i><b></b><em>Booked</em></p><p><i></i><b></b><em class="w">Held</em></p><p><i></i><b></b><em class="f">Free</em></p></div></div>
+          </div>
+          <div class="project__info">
+            <span class="tag tag--mint">Freelance · In progress</span>
+            <h3>Turf Booking System</h3>
+            <p>Players book a turf in Kochi over WhatsApp: check free slots, pick a time and pay by UPI. Slots are held while they pay, so nothing gets double-booked.</p>
+            <ul class="pills"><li>Node.js</li><li>TypeScript</li><li>Express</li><li>SQLite</li><li>WhatsApp API</li></ul>
+            <span class="link link--plain">Client project</span>
+          </div>
+        </article>
+
+        <article class="project panel" style="--pc:var(--pink)">
+          <div class="mock mock--fashion" aria-hidden="true">
+            <div class="mock__bar"><i></i><i></i><i></i><span>smartwear.app</span></div>
+            <div class="mock__body"><div class="mf-chip">AI picks for today</div><div class="mf-grid"><div><i></i><b></b><s></s></div><div><i></i><b></b><s></s></div><div><i></i><b></b><s></s></div></div></div>
+          </div>
+          <div class="project__info">
+            <span class="tag tag--pink">AI Wardrobe Planner</span>
+            <h3>SmartWear</h3>
+            <p>Plans outfits from the clothes you own, today's weather and your style, with styling suggestions from an LLM.</p>
+            <ul class="pills"><li>FastAPI</li><li>React</li><li>MySQL</li><li>Groq LLaMA</li></ul>
+            <a href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" class="link">View on GitHub ↗</a>
+          </div>
+        </article>
+
+        <article class="project panel" style="--pc:var(--sun)">
+          <div class="mock mock--food" aria-hidden="true">
+            <div class="mock__bar"><i></i><i></i><i></i><span>i-dine.menu</span></div>
+            <div class="mock__body"><div class="md-menu"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="md-cart"><b></b><b></b><b></b><span>Order</span></div></div>
+          </div>
+          <div class="project__info">
+            <span class="tag tag--sun">QR Restaurant Ordering</span>
+            <h3>i-Dine</h3>
+            <p>Diners scan a QR code at the table, browse a digital menu, build a cart and order. The restaurant manages orders from the backend.</p>
+            <ul class="pills"><li>Django</li><li>React</li><li>SQL</li></ul>
+            <a href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" class="link">View on GitHub ↗</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="scene" id="process">
+      <div class="panel panel--right" data-panel>
+        <p class="eyebrow">How we work together</p>
+        <h2 class="h2">From first call to <span class="u-coral">launch day</span>.</h2>
+        <ol class="steps" id="steps">
+          <li class="step" style="--c:var(--sun)"><span class="step__n">1</span><div><h3>Discover</h3><p>A free call to understand your business and goals. You get a clear plan and a fixed quote.</p></div></li>
+          <li class="step" style="--c:var(--mint)"><span class="step__n">2</span><div><h3>Design</h3><p>A clickable prototype you can try on your phone. Nothing is built until you love it.</p></div></li>
+          <li class="step" style="--c:var(--grape)"><span class="step__n">3</span><div><h3>Build</h3><p>Clean, tested code with a demo every week, so you always see progress.</p></div></li>
+          <li class="step" style="--c:var(--coral)"><span class="step__n">4</span><div><h3>Launch &amp; care</h3><p>Deployment, training for your team and support while your business grows.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ TOOLKIT + WHY ============ -->
+    <section class="scene" id="stack">
+      <div class="panel panel--left" data-panel>
+        <p class="eyebrow">Toolkit</p>
+        <h2 class="h2">Modern tools, <span class="u-mint">chosen to last</span>.</h2>
+        <div class="skills">
+          <div class="skill"><h3>Languages</h3><ul class="pills pills--sky"><li>Python</li><li>JavaScript</li><li>TypeScript</li><li>Dart</li><li>SQL</li></ul></div>
+          <div class="skill"><h3>Frontend &amp; mobile</h3><ul class="pills pills--grape"><li>React</li><li>React Native</li><li>Expo</li><li>Flutter</li><li>HTML/CSS</li></ul></div>
+          <div class="skill"><h3>Backend</h3><ul class="pills pills--mint"><li>Django</li><li>FastAPI</li><li>Flask</li><li>Node.js</li><li>Express</li></ul></div>
+          <div class="skill"><h3>Data &amp; cloud</h3><ul class="pills pills--sun"><li>MySQL</li><li>SQLite</li><li>Firebase</li><li>Cloud Functions</li><li>VPS</li></ul></div>
+          <div class="skill"><h3>AI &amp; integrations</h3><ul class="pills pills--coral"><li>LLMs (Groq, LLaMA)</li><li>RAG</li><li>Scikit-learn</li><li>WhatsApp API</li><li>UPI</li></ul></div>
+        </div>
+      </div>
+      <div class="why">
+        <div class="why__card" style="--c:var(--sun)" data-reveal><h3>You own 100% of the code</h3><p>No lock-in. Source, hosting and domain in your name.</p></div>
+        <div class="why__card" style="--c:var(--mint)" data-reveal><h3>Fixed quotes</h3><p>Scope and price agreed upfront, in writing.</p></div>
+        <div class="why__card" style="--c:var(--coral)" data-reveal><h3>Weekly demos</h3><p>Working software every week, not just at the end.</p></div>
+        <div class="why__card" style="--c:var(--grape)" data-reveal><h3>AI-ready</h3><p>Every project is ready for chatbots and automation.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="scene" id="faq">
+      <div class="panel panel--right" data-panel>
+        <p class="eyebrow">FAQ</p>
+        <h2 class="h2">Questions <span class="u-sun">clients ask</span> first.</h2>
+        <div class="faq">
+          <details class="qa" open><summary>How much does a website or app cost?<i></i></summary><p>It depends on what you need. After a short call I send a fixed quote that lists every feature, so you know the full price before any work starts.</p></details>
+          <details class="qa"><summary>How long does a project take?<i></i></summary><p>A business website usually takes one to three weeks. Custom web apps and AI systems take longer depending on features. You get a timeline with milestones in the quote.</p></details>
+          <details class="qa"><summary>Do you work with clients outside Kerala?<i></i></summary><p>Yes. I'm based in Kozhikode and work remotely with businesses across India and abroad over video calls, WhatsApp and email.</p></details>
+          <details class="qa"><summary>Can you add AI to my existing website?<i></i></summary><p>Yes. I can add a chatbot trained on your own content, automate enquiries, or plug machine learning into the systems you already use.</p></details>
+          <details class="qa"><summary>What happens after launch?<i></i></summary><p>I handle deployment, train your team and stay available for fixes, updates and new features as your business grows.</p></details>
+        </div>
+        <button class="btn btn--white" data-open-chat type="button">Ask my AI assistant</button>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="scene" id="contact">
+      <div class="panel panel--left panel--wide contact" data-panel>
+        <div class="contact__head">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2 class="contact__title">Let's build something <span class="u-coral">awesome</span>!</h2>
+            <p class="lead">Tell me about your business. I reply within a day with ideas and a fixed quote.</p>
+          </div>
+          <figure class="sticker"><img src="/photos/headphones.jpg" alt="Fasal wearing headphones" width="674" height="1200" /><figcaption>Ready when you are</figcaption></figure>
+        </div>
+
+        <div class="contact__grid">
+          <form class="form" id="contactForm" novalidate>
+            <!-- honeypot: hidden from people, bots tick it and their message is dropped -->
+            <input type="checkbox" name="botcheck" value="1" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px" />
+            <div class="form__row">
+              <label class="field"><span>Your name</span><input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Jane from Café Bloom" /></label>
+              <label class="field"><span>Email or phone</span><input id="f-email" name="email" type="text" required autocomplete="email" placeholder="you@business.com" /></label>
+            </div>
+            <label class="field"><span>Business name and type</span><input id="f-biz" name="business" type="text" autocomplete="organization" placeholder="Restaurant, clinic, shop…" /></label>
+            <fieldset class="chips">
+              <legend>I need</legend>
+              <label><input type="checkbox" name="need" value="Website" /><span>Website</span></label>
+              <label><input type="checkbox" name="need" value="Web app" /><span>Web app</span></label>
+              <label><input type="checkbox" name="need" value="AI chatbot" /><span>AI chatbot</span></label>
+              <label><input type="checkbox" name="need" value="Automation" /><span>Automation</span></label>
+              <label><input type="checkbox" name="need" value="E-commerce" /><span>E-commerce</span></label>
+              <label><input type="checkbox" name="need" value="Something else" /><span>Something else</span></label>
+            </fieldset>
+            <label class="field"><span>Tell me about your project</span><textarea id="f-msg" name="message" rows="4" required placeholder="What would you like to build?"></textarea></label>
+            <div class="form__foot">
+              <button type="submit" class="btn btn--coral">Send enquiry <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              <p class="form__status" id="formStatus" role="status"></p>
+            </div>
+          </form>
+
+          <aside class="channels">
+            <div class="channel channel--email">
+              <span>Email</span>
+              <a href="mailto:fasalmuhammed387@gmail.com" id="emailText">fasalmuhammed387@gmail.com</a>
+              <button class="copy" id="copyEmail" type="button">Copy</button>
+            </div>
+            <a class="channel" href="tel:+917510117309"><span>Phone · WhatsApp</span><b>+91 75101 17309</b></a>
+            <a class="channel" href="https://www.linkedin.com/in/muhammed-fasal-v-4389b6267/" target="_blank" rel="noreferrer"><span>LinkedIn</span><b>Let's connect ↗</b></a>
+            <a class="channel" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer"><span>GitHub</span><b>See my code ↗</b></a>
+            <button class="channel channel--ai" type="button" data-open-chat><span>AI Assistant</span><b>Chat with my AI now →</b></button>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__big" aria-hidden="true">FASAL</div>
+    <div class="footer__row">
+      <span>© <span id="year">2026</span> Muhammed Fasal V</span>
+      <span>Made with code &amp; curls in Kozhikode, Kerala</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- ============ AI CHAT ============ -->
+  <button class="chat-fab" id="chatFab" aria-label="Open AI assistant">
+    <img src="/fasal/smile.png" alt="" width="64" height="64" />
+    <span class="chat-fab__label">Ask my AI</span>
+  </button>
+  <div class="chat" id="chat" role="dialog" aria-label="Fasal's AI assistant" aria-hidden="true">
+    <div class="chat__head">
+      <img src="/fasal/smile.png" alt="" width="44" height="44" />
+      <div><b>Fasal's AI Assistant</b><span><i></i>Online</span></div>
+      <button class="chat__close" id="chatClose" aria-label="Close chat">✕</button>
+    </div>
+    <div class="chat__body" id="chatBody">
+      <div class="msg msg--bot">Hi! I'm Fasal's AI assistant. Ask me about his projects, skills, pricing or availability.</div>
+    </div>
+    <div class="chat__chips" id="chatChips">
+      <button type="button">What can you build for my business?</button>
+      <button type="button">Tell me about SmartWear</button>
+      <button type="button">Are you available?</button>
+    </div>
+    <form class="chat__form" id="chatForm">
+      <input id="chatInput" type="text" placeholder="Type your question…" autocomplete="off" aria-label="Message" />
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -17,8 +17,8 @@ Two audiences, weighted equally (confirmed):
 
 A personal portfolio for Muhammed Fasal V, a full-stack and AI engineer from Kozhikode, Kerala, working as a Junior Software Developer at Finprov Learning (since August 2026). It exists in two modes on one site:
 
-- **Creative mode** (`index.html`): a playful 3D cartoon world.
-- **Professional mode** (`pro.html`): for companies and clients who would judge the creative side as unserious. It must read as polished and senior while staying personal.
+- **Creative mode** (`creative.html`): a playful 3D cartoon world, opened from the toggle.
+- **Professional mode** (`index.html`, the homepage, confirmed November 2026): for companies and clients who would judge the creative side as unserious. It must read as polished and senior while staying personal.
 
 Success: a visitor knows within seconds who Fasal is and what he does, sees real work, and emails or messages him.
 
@@ -28,8 +28,8 @@ One person who designs, builds and ships end to end (backend, frontend and AI fe
 
 ## Operating Context
 
-- The professional mode is sent as a link (`/?mode=pro` or `/pro.html`) in job applications and client conversations.
-- A toggle beside the logo switches between creative and professional mode; the choice is remembered (`src/mode.js`).
+- The homepage https://fasalmuhammed.in is the professional mode and is the link sent in job applications and client conversations. Old `/pro.html` links redirect there.
+- A toggle in the nav opens the creative world (`creative.html`) and switches back (`src/mode.js`). Every new visit starts in professional mode.
 - An AI assistant (FastAPI backend, `src/chat.js`) answers questions about his work and availability.
 
 ## Capabilities and Constraints

@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/pro.html", "destination": "/", "permanent": true },
+    { "source": "/pro", "destination": "/", "permanent": true }
+  ]
+}

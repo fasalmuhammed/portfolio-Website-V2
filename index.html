@@ -3,384 +3,410 @@
 <head>
   <meta charset="UTF-8" />
   <script>
-    // ?mode=pro|creative sets the mode; a remembered professional choice opens the professional site
+    // the professional site is the homepage; ?mode=creative opens the creative world, and a curtain flag means we arrived through the switch
     (function () { try {
       var q = new URLSearchParams(location.search).get('mode')
-      if (q === 'pro' || q === 'creative') localStorage.setItem('fasal-mode', q)
-      if (localStorage.getItem('fasal-mode') === 'pro') location.replace('/pro.html' + location.hash)
+      if (q === 'creative') { location.replace('/creative.html' + location.hash); return }
+      if (sessionStorage.getItem('fasal-wipe') === 'pro') document.documentElement.classList.add('is-arriving')
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
     } catch (e) {} })()
+    document.documentElement.classList.add('js')
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Muhammed Fasal · Full-stack & AI Engineer</title>
-  <meta name="description" content="Muhammed Fasal V builds websites, web apps, AI chatbots and automation for restaurants, clinics, shops, schools and startups. Based in Kozhikode, Kerala, working worldwide." />
-  <meta name="theme-color" content="#4ea8ff" />
-  <meta property="og:title" content="Muhammed Fasal · Full-stack & AI Engineer" />
-  <meta property="og:description" content="Websites, apps and AI that make your business shine." />
+  <title>Muhammed Fasal · Full-stack and AI Engineer</title>
+  <meta name="description" content="Muhammed Fasal V is a full-stack developer from Kozhikode, Kerala, and a Junior Software Developer at Finprov Learning. He builds web apps, Android apps, AI chatbots and automation, and takes on freelance projects." />
+  <meta name="theme-color" content="#e9e3d9" />
+  <meta property="og:title" content="Muhammed Fasal · Full-stack and AI Engineer" />
+  <meta property="og:description" content="Websites, web apps, AI chatbots and automation, built and shipped end to end." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fasalmuhammed.in" />
+  <meta property="og:url" content="https://fasalmuhammed.in/" />
+  <meta property="og:image" content="https://fasalmuhammed.in/images/fasal-hero.webp" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
-  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preload" as="image" href="/images/fasal-hero.webp" type="image/webp" />
   <style>
-    /* Critical CSS: paints the loader instantly; the rest of the page stays hidden until style.css is applied (main.js adds .css-ready). */
-    body { margin: 0; background: #bfe6ff; color: #14213d; font-family: "Poppins", "Segoe UI", system-ui, sans-serif; }
-    html.js:not(.css-ready) body > :not(#loader) { visibility: hidden; }
-    /* ---------- Loader ---------- */
-    .loader {
-      position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-      background: linear-gradient(#4ea8ff, #bfe6ff); overflow: hidden;
-    }
-    .loader__face { width: 150px; height: 150px; animation: hop 0.9s cubic-bezier(0.22, 1, 0.36, 1) infinite; filter: drop-shadow(0 12px 0 rgba(20, 33, 61, 0.18)); }
-    @keyframes hop { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-38px) scale(0.96, 1.04); } 80% { transform: translateY(0) scale(1.06, 0.94); } }
-    .loader__text { margin: 0; font-weight: 700; font-size: 18px; }
-    .loader__text b { font-variant-numeric: tabular-nums; }
-    .loader__bar { width: min(320px, 70vw); height: 18px; border: 3px solid #14213d; border-radius: 99px; background: #fff; overflow: hidden; box-shadow: 0 4px 0 #14213d; }
-    .loader__bar span { display: block; height: 100%; width: 100%; background: repeating-linear-gradient(-45deg, #ffc93c 0 12px, #ffb703 12px 24px); transform-origin: left; transform: scaleX(0); }
-    .loader__cloud { position: absolute; background: #fff; border-radius: 99px; opacity: 0.9; animation: drift 9s linear infinite; }
-    .loader__cloud::before, .loader__cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
-    .loader__cloud::before { width: 55%; height: 160%; left: 15%; bottom: 30%; }
-    .loader__cloud::after { width: 40%; height: 130%; right: 12%; bottom: 25%; }
-    .c1 { width: 180px; height: 50px; top: 16%; left: -200px; }
-    .c2 { width: 120px; height: 36px; top: 70%; left: -140px; animation-duration: 12s; animation-delay: -4s; }
-    .c3 { width: 220px; height: 60px; top: 40%; left: -240px; animation-duration: 15s; animation-delay: -9s; }
-    @keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
-    html:not(.js) .loader { display: none; }
+    html.is-arriving { background: #e9e3d9; }
+    html.is-arriving body > * { visibility: hidden; }
   </style>
 </head>
-<body>
-  <!-- ============ LOADER ============ -->
-  <div class="loader" id="loader" aria-hidden="true">
-    <div class="loader__cloud c1"></div><div class="loader__cloud c2"></div><div class="loader__cloud c3"></div>
-    <img class="loader__face" src="/fasal/laugh.png" alt="" width="213" height="273" />
-    <p class="loader__text">Building Fasal's world… <b id="loaderCount">0</b>%</p>
-    <div class="loader__bar"><span id="loaderBar"></span></div>
-  </div>
-
-  <canvas id="world" aria-hidden="true"></canvas>
-
+<body class="pro">
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="nav__left">
-      <a href="#top" class="nav__logo" aria-label="Back to top">Fasal<span>.</span></a>
-      <a href="/pro.html" class="mode-switch" data-mode-switch="pro">
-        <i class="mode-switch__knob" aria-hidden="true"></i><span><span class="mode-switch__long">Switch to </span>Professional Mode</span>
-      </a>
+      <a href="/creative.html" class="switch" data-mode-switch="creative" data-cursor="Creative"><i class="switch__knob" aria-hidden="true"></i><span><span class="switch__long">Switch to </span>Creative<span class="switch__mode"> Mode</span></span></a>
     </div>
-    <nav class="nav__links" aria-label="Primary">
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#top">Home</a>
       <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#industries">Industries</a>
+      <a href="#experience">Experience</a>
       <a href="#work">Work</a>
-      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </nav>
     <div class="nav__right">
-      <a href="#contact" class="btn btn--sun btn--small">Let's talk</a>
-      <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+      <a class="icon" href="https://www.linkedin.com/in/muhammed-fasal-v-4389b6267/" target="_blank" rel="noreferrer" aria-label="LinkedIn" data-cursor="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3.5a1.97 1.97 0 1 0 0 3.94 1.97 1.97 0 0 0 0-3.94ZM20.44 13.4c0-3.1-1.66-4.54-3.87-4.54-1.79 0-2.59.98-3.04 1.67V8.5h-3.37V20h3.37v-6.06c0-1.6.3-3.15 2.29-3.15 1.96 0 1.99 1.83 1.99 3.25V20h3.38v-6.6Z"/></svg></a>
+      <a class="icon" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" aria-label="GitHub" data-cursor="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a9.5 9.5 0 0 0-3 18.52c.47.09.65-.2.65-.46v-1.6c-2.64.58-3.2-1.27-3.2-1.27-.43-1.1-1.06-1.39-1.06-1.39-.86-.59.07-.58.07-.58.95.07 1.45.98 1.45.98.85 1.45 2.22 1.03 2.76.79.09-.61.33-1.03.6-1.27-2.11-.24-4.33-1.05-4.33-4.69 0-1.04.37-1.89.98-2.55-.1-.24-.42-1.21.09-2.52 0 0 .8-.26 2.61.97a9 9 0 0 1 4.75 0c1.81-1.23 2.61-.97 2.61-.97.51 1.31.19 2.28.09 2.52.61.66.98 1.51.98 2.55 0 3.65-2.22 4.45-4.34 4.68.34.3.65.88.65 1.78v2.64c0 .26.17.56.66.46A9.5 9.5 0 0 0 12 2.5Z"/></svg></a>
+      <a class="icon" href="mailto:fasalmuhammed387@gmail.com" aria-label="Email" data-cursor="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5h17a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Zm1.4 2 7.1 5.3 7.1-5.3H4.9Zm14.6 1.6-7 5.2a.85.85 0 0 1-1 0l-7-5.2v7.4h15V9.1Z"/></svg></a>
+      <button class="nav__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
   </header>
 
   <div class="menu" id="menu" aria-hidden="true">
-    <nav class="menu__links">
+    <nav class="menu__links" aria-label="Menu">
+      <a href="#top">Home</a>
       <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#industries">Industries</a>
+      <a href="#experience">Experience</a>
       <a href="#work">Work</a>
-      <a href="#process">Process</a>
-      <a href="#faq">FAQ</a>
+      <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
+    <a class="menu__mail" href="mailto:fasalmuhammed387@gmail.com">fasalmuhammed387@gmail.com</a>
   </div>
 
-  <div class="progress"><span id="progress"></span></div>
+  <!-- the scroll marker from the hero stays with you, and fills as you go -->
+  <div class="marker" aria-hidden="true">
+    <span class="marker__label" id="markerLabel">Scroll</span>
+    <span class="marker__line"><i id="markerFill"></i></span>
+    <span class="marker__ring"></span>
+  </div>
 
-  <main id="top">
-    <!-- ============ HERO ============ -->
-    <section class="hero" id="hero">
-      <div class="hero__copy">
-        <p class="chip" data-hero><i class="dot"></i>Hi, I'm Fasal · open for new projects</p>
-        <h1 class="hero__title" aria-label="I build websites, apps and AI that make your business shine.">
-          <span class="line"><span class="line__in strip strip--cream" data-hero-line>I build websites,</span></span>
-          <span class="line"><span class="line__in strip strip--sun" data-hero-line>apps &amp; AI that make</span></span>
-          <span class="line"><span class="line__in strip strip--coral" data-hero-line>your business <span class="shine">shine<svg class="sparkle" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2l4 14 14 4-14 4-4 14-4-14L2 20l14-4z"/></svg></span></span></span>
-        </h1>
-        <p class="hero__lead bubble-card" data-hero>
-          Full-stack &amp; AI engineer from Kozhikode, Kerala. I design and build fast websites,
-          custom web apps, AI chatbots and automations for restaurants, clinics, shops, schools and startups.
-        </p>
-        <div class="hero__cta" data-hero>
-          <a href="#contact" class="btn btn--sun">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="#work" class="btn btn--white">See my work</a>
+  <main>
+    <!-- ============ HERO: a sunlit wall, a pillar, a circle, and the portrait; every layer sits at its own depth ============ -->
+    <section class="hero" id="top">
+      <div class="hero__stage" id="heroStage">
+        <div class="layer wall" data-depth="-260" aria-hidden="true"></div>
+        <div class="layer disc" data-depth="-120" aria-hidden="true"></div>
+        <img class="layer hero__photo" data-depth="0" src="/images/fasal-hero.webp" alt="Muhammed Fasal in a charcoal overshirt, looking to the side" width="1326" height="1123" fetchpriority="high" />
+        <div class="layer hero__copy" data-depth="70">
+          <p class="caps hero__role">Full-stack &amp; AI engineer</p>
+          <h1 class="hero__name"><span class="sr-only">Muhammed </span><span class="hero__letters" aria-hidden="true">Fasal</span><span class="sr-only">Fasal, full-stack and AI engineer</span></h1>
+          <p class="hero__lede">I build websites, web apps and AI that connect businesses with their people.</p>
+          <p class="hero__actions">
+            <a class="btn" href="#work" data-cursor="Work">View my work<svg viewBox="0 0 28 12" aria-hidden="true"><path d="M0 6h26M21 1l5 5-5 5"/></svg></a>
+            <a class="line-link" href="#about"><i aria-hidden="true"></i>About me</a>
+          </p>
         </div>
+        <svg class="layer plant" data-depth="160" viewBox="0 0 400 420" aria-hidden="true">
+          <g fill="#3d4436">
+            <path d="M40 420 C60 330 80 260 150 190 C110 270 95 340 80 420Z" />
+            <path d="M150 190 C190 150 250 140 300 160 C250 180 200 190 150 190Z" />
+            <path d="M120 250 C80 200 30 190 0 200 C40 230 80 250 120 250Z" />
+            <path d="M110 300 C170 270 230 280 270 310 C210 320 160 315 110 300Z" />
+            <path d="M95 345 C50 320 10 330 -20 350 C25 365 65 360 95 345Z" />
+            <path d="M150 190 C150 130 175 80 220 50 C205 110 185 160 150 190Z" />
+            <path d="M85 380 C120 360 170 365 200 390 C155 400 115 395 85 380Z" />
+          </g>
+        </svg>
       </div>
-      <p class="hero__hint" data-hero><span class="mouse"><i></i></span>Scroll to join the adventure</p>
     </section>
 
     <!-- ============ ABOUT ============ -->
-    <section class="scene" id="about">
-      <div class="panel panel--right" data-panel>
-        <p class="eyebrow">About me</p>
-        <h2 class="h2">The human behind <span class="u-coral">the code</span>.</h2>
-        <div class="polaroids" id="polaroids">
-          <figure class="polaroid" style="--r:-7deg"><img src="/photos/smile.jpg" alt="Fasal smiling in yellow sunglasses" width="675" height="1200" /><figcaption>Always smiling</figcaption></figure>
-          <figure class="polaroid" style="--r:4deg"><img src="/photos/forest.jpg" alt="Fasal standing in a banyan forest" width="900" height="1058" /><figcaption>Into the woods</figcaption></figure>
-          <figure class="polaroid" style="--r:-3deg"><img src="/photos/travel.jpg" alt="Fasal on a mountain trip with prayer flags" width="675" height="1200" /><figcaption>Mountain mode</figcaption></figure>
-          <figure class="polaroid" style="--r:6deg"><img src="/photos/waterfall.jpg" alt="Fasal at a waterfall with a rainbow" width="675" height="1200" /><figcaption>Rainbow hunter</figcaption></figure>
+    <section class="about" id="about">
+      <h2 class="caps about__title">About</h2>
+      <p class="about__statement" id="statement">I'm a software developer from Kozhikode, Kerala, with an MCA from Pondicherry University. I build websites and AI features at Finprov Learning, and freelance apps for real businesses, from hostel administration to WhatsApp booking.</p>
+    </section>
+
+    <!-- ============ EXPERIENCE: a timeline that unfolds as you read, with education and skills beside it ============ -->
+    <section class="exp" id="experience">
+      <div class="exp__head">
+        <h2 class="exp__title">Experience</h2>
+        <p class="exp__sub">Where I work, what I've studied, and the tools I use every day.</p>
+      </div>
+      <ol class="exp__list">
+        <li class="exp__item">
+          <p class="caps exp__when">Aug 2026 – Present</p>
+          <div class="exp__body">
+            <h3 class="exp__role">Junior Software Developer</h3>
+            <p class="exp__org">Finprov Learning · Kerala</p>
+            <p class="exp__text">I build and maintain the company's websites and web apps, including frontend features, content management and admin interfaces, and SEO panels with live previews and synced editing. I also work on AI chatbot features and integrations, and on testing, accessibility and performance.</p>
+          </div>
+        </li>
+        <li class="exp__item">
+          <p class="caps exp__when">Freelance</p>
+          <div class="exp__body">
+            <h3 class="exp__role">Freelance Developer</h3>
+            <p class="exp__org">Clients in Kerala</p>
+            <p class="exp__text">I build software that businesses run on. So far that's a hostel administration app for Android and web, and a WhatsApp turf booking system in Kochi, which is in progress. Both are shown under Selected work below.</p>
+          </div>
+        </li>
+        <li class="exp__item">
+          <p class="caps exp__when">2024 – 2026</p>
+          <div class="exp__body">
+            <h3 class="exp__role">Master of Computer Applications</h3>
+            <p class="exp__org">Pondicherry University · CGPA 7.4</p>
+          </div>
+        </li>
+        <li class="exp__item">
+          <p class="caps exp__when">2021 – 2024</p>
+          <div class="exp__body">
+            <h3 class="exp__role">BSc Computer Science</h3>
+            <p class="exp__org">MAMO College, Kozhikode</p>
+          </div>
+        </li>
+      </ol>
+      <div class="exp__extra">
+        <div class="kit">
+          <h3 class="caps kit__title">Toolkit</h3>
+          <dl class="kit__list">
+            <div><dt>Languages</dt><dd>Python, JavaScript, TypeScript, Dart, SQL</dd></div>
+            <div><dt>Frontend &amp; mobile</dt><dd>React, React Native, Expo, Flutter, HTML, CSS</dd></div>
+            <div><dt>Backend</dt><dd>Django, FastAPI, Flask, Node.js, Express, REST APIs</dd></div>
+            <div><dt>Data &amp; cloud</dt><dd>MySQL, SQLite, Firebase Auth, Firestore, Cloud Functions, VPS, cPanel</dd></div>
+            <div><dt>AI</dt><dd>LLM integration, Groq, LLaMA, RAG, Scikit-learn</dd></div>
+            <div><dt>Integrations</dt><dd>WhatsApp Cloud API, UPI payments, OpenWeather API</dd></div>
+          </dl>
         </div>
-        <p class="lead">
-          I'm an MCA graduate and a software developer at Finprov Learning who loves turning everyday business headaches into simple software.
-          Taking orders, booking slots, answering the same questions, updating spreadsheets.
-          I automate the boring parts so you can spend your time with customers.
-        </p>
-        <div class="facts">
-          <div class="fact fact--sun"><b class="counter" data-to="2">2</b><span>Client apps for real businesses</span></div>
-          <div class="fact fact--mint"><b class="counter" data-to="30" data-suffix="+">30+</b><span>Tools &amp; technologies</span></div>
-          <div class="fact fact--coral"><b>1</b><span>Point of contact, start to finish</span></div>
+        <div class="kit">
+          <h3 class="caps kit__title">Certifications</h3>
+          <ul class="kit__certs">
+            <li><b>Joy of Computing Using Python</b><span>NPTEL · IIT Madras · Elite, 85%</span></li>
+            <li><b>Data Analytics with Python</b><span>NPTEL · IIT Roorkee</span></li>
+            <li><b>Overview of GIS</b><span>IIRS · ISRO</span></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ============ SERVICES ============ -->
-    <section class="scene" id="services">
-      <div class="panel panel--left panel--wide" data-panel>
-        <p class="eyebrow">What I build</p>
-        <h2 class="h2">Six ways I can help your business <span class="u-sun">grow</span>.</h2>
-        <div class="services">
-          <article class="svc" data-tilt>
-            <span class="svc__icon" style="--c:var(--sky)"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="26" rx="4"/><path d="M6 16h36M17 41h14M24 35v6"/></svg></span>
-            <h3>Business Websites</h3><p>Fast, mobile-first sites that rank on Google and turn visitors into enquiries.</p>
+    <!-- ============ WORK: a 3D coverflow you scroll through ============ -->
+    <section class="work" id="work">
+      <div class="work__pin">
+        <div class="work__head">
+          <h2 class="work__title">Selected work</h2>
+          <p class="work__sub">Client apps and personal projects, each built end to end, from database to interface.</p>
+        </div>
+        <div class="flow" id="flow">
+          <article class="card">
+            <h3 class="card__name">Hostel Admin</h3>
+            <p class="caps card__meta">Freelance · Android &amp; web app</p>
+            <p class="card__text">Runs a boys' hostel across several buildings: rooms, residents, automatic monthly billing, fee collection, complaints and reports. Staff get access based on their role, and it keeps working offline.</p>
+            <div class="ui" aria-hidden="true">
+              <div class="ui__bar"><b>November billing · Block B</b><span>Sample data</span></div>
+              <div class="ui__body"><table>
+                <thead><tr><th>Room</th><th>Resident</th><th>Fee</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>B-204</td><td>Ajmal K.</td><td>₹4,500</td><td><span class="chip chip--ink">Paid</span></td></tr>
+                  <tr><td>B-205</td><td>Nihal P.</td><td>₹4,500</td><td><span class="chip chip--line">Due</span></td></tr>
+                  <tr><td>B-207</td><td>Shahid M.</td><td>₹4,500</td><td><span class="chip chip--ink">Paid</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <p class="card__foot"><span>React Native · Expo · TypeScript · Firebase · Node.js</span><span class="card__tag">Client project</span></p>
           </article>
-          <article class="svc" data-tilt>
-            <span class="svc__icon" style="--c:var(--grape)"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="6" width="15" height="15" rx="3"/><rect x="27" y="6" width="15" height="15" rx="3"/><rect x="6" y="27" width="15" height="15" rx="3"/><path d="M34.5 27v15M27 34.5h15"/></svg></span>
-            <h3>Custom Web Apps</h3><p>Booking, ordering, inventory and admin systems built around how your team works.</p>
+          <article class="card">
+            <h3 class="card__name">Turf Booking</h3>
+            <p class="caps card__meta">Freelance · Kochi · In progress</p>
+            <p class="card__text">Players book a turf over WhatsApp: check free slots, pick a time and pay by UPI. A slot is held while they pay, so nothing gets double-booked, and an admin dashboard handles pricing and schedules.</p>
+            <div class="ui" aria-hidden="true">
+              <div class="ui__bar"><b>Turf bookings · WhatsApp</b><span>Sample data</span></div>
+              <div class="ui__body"><div class="talk talk--mini">
+                <p class="talk__msg talk__msg--in">Any slots on Saturday evening?</p>
+                <p class="talk__msg talk__msg--out">Free: 6–7, 8–9 and 9–10 pm.</p>
+                <p class="talk__msg talk__msg--in">8–9 please</p>
+                <p class="talk__msg talk__msg--out">Held for 10 min. Pay ₹1,200 by UPI to confirm.</p>
+              </div></div>
+            </div>
+            <p class="card__foot"><span>Node.js · TypeScript · Express · SQLite · WhatsApp Cloud API</span><span class="card__tag">Client project</span></p>
           </article>
-          <article class="svc svc--hot" data-tilt>
-            <span class="svc__icon" style="--c:var(--coral)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 12h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H22l-8 7v-7h-4a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><circle cx="17" cy="23" r="1.8"/><circle cx="24" cy="23" r="1.8"/><circle cx="31" cy="23" r="1.8"/></svg></span>
-            <h3>AI Chatbots</h3><p>An assistant trained on your menu, services or FAQs that answers customers 24/7.</p>
+          <article class="card">
+            <h3 class="card__name">SmartWear</h3>
+            <p class="caps card__meta">AI wardrobe &amp; outfit planner</p>
+            <p class="card__text">Plans outfits from the clothes you own, today's weather and your style, with styling suggestions from an LLM. Built with JWT sign-in and a REST API.</p>
+            <div class="ui" aria-hidden="true">
+              <div class="ui__bar"><b>Today · 31°C, humid</b><span>Sample data</span></div>
+              <div class="ui__body"><div class="wear">
+                <div><i style="--c:#d9c7a8"></i><b>Linen shirt</b><span>Breathable</span></div>
+                <div><i style="--c:#8a96a3"></i><b>Chinos</b><span>Light cotton</span></div>
+                <div><i style="--c:#3b3a36"></i><b>Sneakers</b><span>Rain-safe</span></div>
+              </div></div>
+            </div>
+            <p class="card__foot"><span>FastAPI · React · MySQL · Groq LLaMA</span><a class="card__link" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" data-cursor="GitHub">GitHub profile</a></p>
           </article>
-          <article class="svc" data-tilt>
-            <span class="svc__icon" style="--c:var(--mint)"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11.3 11.3l4.2 4.2M32.5 32.5l4.2 4.2M11.3 36.7l4.2-4.2M32.5 15.5l4.2-4.2"/></svg></span>
-            <h3>Automation</h3><p>Invoices, reports, reminders and data entry that happen on their own.</p>
-          </article>
-          <article class="svc" data-tilt>
-            <span class="svc__icon" style="--c:var(--sun)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 8h6l5 22h21l4-15H14"/><circle cx="19" cy="38" r="3"/><circle cx="35" cy="38" r="3"/></svg></span>
-            <h3>E-commerce</h3><p>Online stores and ordering with menus, carts and live order tracking.</p>
-          </article>
-          <article class="svc" data-tilt>
-            <span class="svc__icon" style="--c:var(--pink)"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 42h36M12 34V22M20 34V14M28 34V26M36 34V8"/></svg></span>
-            <h3>Dashboards &amp; ML</h3><p>Turn messy spreadsheets into live dashboards, forecasts and smart picks.</p>
+          <article class="card">
+            <h3 class="card__name">i-Dine</h3>
+            <p class="caps card__meta">QR restaurant ordering</p>
+            <p class="card__text">Diners scan a QR code at the table, browse a digital menu, build a cart and place their order. The restaurant manages orders from the backend.</p>
+            <div class="ui" aria-hidden="true">
+              <div class="ui__bar"><b>Table 6 · scanned QR</b><span>Sample data</span></div>
+              <div class="ui__body">
+                <ul class="dine">
+                  <li><span>Malabar chicken biryani</span><b>₹220</b></li>
+                  <li><span>Kerala parotta, 2 pcs</span><b>₹40</b></li>
+                  <li><span>Fresh lime soda</span><b>₹60</b></li>
+                </ul>
+                <p class="dine__status"><i></i>Order sent to the kitchen</p>
+              </div>
+            </div>
+            <p class="card__foot"><span>Django · React · SQL</span><a class="card__link" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" data-cursor="GitHub">GitHub profile</a></p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ INDUSTRIES (pinned, 3D islands) ============ -->
-    <section class="industries" id="industries">
-      <div class="ind-head panel panel--small">
-        <p class="eyebrow">Industries</p>
-        <h2 class="h2 h2--sm">Built for <span class="u-mint">every kind</span> of business.</h2>
-        <p class="ind-head__sub">Keep scrolling and I'll hop across the islands. Each one is a business I can build for.</p>
-      </div>
-      <div class="speech" id="speech" aria-live="polite">
-        <b id="speechTitle">Restaurants &amp; Cafés</b>
-        <span id="speechText">Online menus, table ordering and kitchen screens.</span>
-      </div>
-      <ol class="ind-dots" id="indDots" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol>
-    </section>
-
-    <!-- ============ WORK ============ -->
-    <section class="scene scene--work" id="work">
-      <div class="work">
-        <div class="panel panel--small work__head" data-panel>
-          <p class="eyebrow">Selected work</p>
-          <h2 class="h2">Real systems, <span class="u-sun">real problems</span> solved.</h2>
-        </div>
-
-        <article class="project panel" style="--pc:var(--sky)">
-          <div class="mock mock--hostel" aria-hidden="true">
-            <div class="mock__bar"><i></i><i></i><i></i><span>hostel admin · Android &amp; web</span></div>
-            <div class="mock__body"><div class="mo-legend"><span>Free</span><span>Taken</span></div><div class="mo-rooms"><i></i><i class="t"></i><i></i><i class="t"></i><i class="t"></i><i></i><i></i><i class="t"></i><i></i><i></i><i class="t"></i><i></i></div></div>
-          </div>
-          <div class="project__info">
-            <span class="tag tag--sky">Freelance · Android &amp; Web</span>
-            <h3>Hostel Administration System</h3>
-            <p>Runs a boys' hostel across several buildings: rooms, residents, automatic monthly billing, fee collection, complaints and reports, with QR admissions and offline sync.</p>
-            <ul class="pills"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Firebase</li><li>Node.js</li></ul>
-            <span class="link link--plain">Client project</span>
-          </div>
-        </article>
-
-        <article class="project panel" style="--pc:var(--mint)">
-          <div class="mock mock--turf" aria-hidden="true">
-            <div class="mock__bar"><i></i><i></i><i></i><span>turf bookings · WhatsApp</span></div>
-            <div class="mock__body"><div class="mt-pitch"></div><div class="mh-rows"><p><i></i><b></b><em>Booked</em></p><p><i></i><b></b><em class="w">Held</em></p><p><i></i><b></b><em class="f">Free</em></p></div></div>
-          </div>
-          <div class="project__info">
-            <span class="tag tag--mint">Freelance · In progress</span>
-            <h3>Turf Booking System</h3>
-            <p>Players book a turf in Kochi over WhatsApp: check free slots, pick a time and pay by UPI. Slots are held while they pay, so nothing gets double-booked.</p>
-            <ul class="pills"><li>Node.js</li><li>TypeScript</li><li>Express</li><li>SQLite</li><li>WhatsApp API</li></ul>
-            <span class="link link--plain">Client project</span>
-          </div>
-        </article>
-
-        <article class="project panel" style="--pc:var(--pink)">
-          <div class="mock mock--fashion" aria-hidden="true">
-            <div class="mock__bar"><i></i><i></i><i></i><span>smartwear.app</span></div>
-            <div class="mock__body"><div class="mf-chip">AI picks for today</div><div class="mf-grid"><div><i></i><b></b><s></s></div><div><i></i><b></b><s></s></div><div><i></i><b></b><s></s></div></div></div>
-          </div>
-          <div class="project__info">
-            <span class="tag tag--pink">AI Wardrobe Planner</span>
-            <h3>SmartWear</h3>
-            <p>Plans outfits from the clothes you own, today's weather and your style, with styling suggestions from an LLM.</p>
-            <ul class="pills"><li>FastAPI</li><li>React</li><li>MySQL</li><li>Groq LLaMA</li></ul>
-            <a href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" class="link">View on GitHub ↗</a>
-          </div>
-        </article>
-
-        <article class="project panel" style="--pc:var(--sun)">
-          <div class="mock mock--food" aria-hidden="true">
-            <div class="mock__bar"><i></i><i></i><i></i><span>i-dine.menu</span></div>
-            <div class="mock__body"><div class="md-menu"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="md-cart"><b></b><b></b><b></b><span>Order</span></div></div>
-          </div>
-          <div class="project__info">
-            <span class="tag tag--sun">QR Restaurant Ordering</span>
-            <h3>i-Dine</h3>
-            <p>Diners scan a QR code at the table, browse a digital menu, build a cart and order. The restaurant manages orders from the backend.</p>
-            <ul class="pills"><li>Django</li><li>React</li><li>SQL</li></ul>
-            <a href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" class="link">View on GitHub ↗</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ============ PROCESS ============ -->
-    <section class="scene" id="process">
-      <div class="panel panel--right" data-panel>
-        <p class="eyebrow">How we work together</p>
-        <h2 class="h2">From first call to <span class="u-coral">launch day</span>.</h2>
-        <ol class="steps" id="steps">
-          <li class="step" style="--c:var(--sun)"><span class="step__n">1</span><div><h3>Discover</h3><p>A free call to understand your business and goals. You get a clear plan and a fixed quote.</p></div></li>
-          <li class="step" style="--c:var(--mint)"><span class="step__n">2</span><div><h3>Design</h3><p>A clickable prototype you can try on your phone. Nothing is built until you love it.</p></div></li>
-          <li class="step" style="--c:var(--grape)"><span class="step__n">3</span><div><h3>Build</h3><p>Clean, tested code with a demo every week, so you always see progress.</p></div></li>
-          <li class="step" style="--c:var(--coral)"><span class="step__n">4</span><div><h3>Launch &amp; care</h3><p>Deployment, training for your team and support while your business grows.</p></div></li>
+    <!-- ============ SERVICES: the list scrolls past a paper panel that turns to show a sample of each one ============ -->
+    <section class="services" id="services">
+      <h2 class="services__title">What I build</h2>
+      <div class="svc">
+        <ol class="svc__list">
+          <li class="svc__item is-on"><h3>Websites</h3><p>Fast, mobile-first business sites that rank on Google and turn visitors into enquiries.</p></li>
+          <li class="svc__item"><h3>Web &amp; mobile apps</h3><p>Booking, billing and admin systems for web and Android, built around how your team works.</p></li>
+          <li class="svc__item"><h3>AI chatbots</h3><p>An assistant trained on your menu, services or FAQs that answers customers day and night.</p></li>
+          <li class="svc__item"><h3>Automation</h3><p>Invoices, reports, reminders and data entry that happen on their own.</p></li>
+          <li class="svc__item"><h3>E-commerce</h3><p>Online stores and ordering with menus, carts and live order tracking.</p></li>
         </ol>
-      </div>
-    </section>
-
-    <!-- ============ TOOLKIT + WHY ============ -->
-    <section class="scene" id="stack">
-      <div class="panel panel--left" data-panel>
-        <p class="eyebrow">Toolkit</p>
-        <h2 class="h2">Modern tools, <span class="u-mint">chosen to last</span>.</h2>
-        <div class="skills">
-          <div class="skill"><h3>Languages</h3><ul class="pills pills--sky"><li>Python</li><li>JavaScript</li><li>TypeScript</li><li>Dart</li><li>SQL</li></ul></div>
-          <div class="skill"><h3>Frontend &amp; mobile</h3><ul class="pills pills--grape"><li>React</li><li>React Native</li><li>Expo</li><li>Flutter</li><li>HTML/CSS</li></ul></div>
-          <div class="skill"><h3>Backend</h3><ul class="pills pills--mint"><li>Django</li><li>FastAPI</li><li>Flask</li><li>Node.js</li><li>Express</li></ul></div>
-          <div class="skill"><h3>Data &amp; cloud</h3><ul class="pills pills--sun"><li>MySQL</li><li>SQLite</li><li>Firebase</li><li>Cloud Functions</li><li>VPS</li></ul></div>
-          <div class="skill"><h3>AI &amp; integrations</h3><ul class="pills pills--coral"><li>LLMs (Groq, LLaMA)</li><li>RAG</li><li>Scikit-learn</li><li>WhatsApp API</li><li>UPI</li></ul></div>
-        </div>
-      </div>
-      <div class="why">
-        <div class="why__card" style="--c:var(--sun)" data-reveal><h3>You own 100% of the code</h3><p>No lock-in. Source, hosting and domain in your name.</p></div>
-        <div class="why__card" style="--c:var(--mint)" data-reveal><h3>Fixed quotes</h3><p>Scope and price agreed upfront, in writing.</p></div>
-        <div class="why__card" style="--c:var(--coral)" data-reveal><h3>Weekly demos</h3><p>Working software every week, not just at the end.</p></div>
-        <div class="why__card" style="--c:var(--grape)" data-reveal><h3>AI-ready</h3><p>Every project is ready for chatbots and automation.</p></div>
-      </div>
-    </section>
-
-    <!-- ============ FAQ ============ -->
-    <section class="scene" id="faq">
-      <div class="panel panel--right" data-panel>
-        <p class="eyebrow">FAQ</p>
-        <h2 class="h2">Questions <span class="u-sun">clients ask</span> first.</h2>
-        <div class="faq">
-          <details class="qa" open><summary>How much does a website or app cost?<i></i></summary><p>It depends on what you need. After a short call I send a fixed quote that lists every feature, so you know the full price before any work starts.</p></details>
-          <details class="qa"><summary>How long does a project take?<i></i></summary><p>A business website usually takes one to three weeks. Custom web apps and AI systems take longer depending on features. You get a timeline with milestones in the quote.</p></details>
-          <details class="qa"><summary>Do you work with clients outside Kerala?<i></i></summary><p>Yes. I'm based in Kozhikode and work remotely with businesses across India and abroad over video calls, WhatsApp and email.</p></details>
-          <details class="qa"><summary>Can you add AI to my existing website?<i></i></summary><p>Yes. I can add a chatbot trained on your own content, automate enquiries, or plug machine learning into the systems you already use.</p></details>
-          <details class="qa"><summary>What happens after launch?<i></i></summary><p>I handle deployment, train your team and stay available for fixes, updates and new features as your business grows.</p></details>
-        </div>
-        <button class="btn btn--white" data-open-chat type="button">Ask my AI assistant</button>
-      </div>
-    </section>
-
-    <!-- ============ CONTACT ============ -->
-    <section class="scene" id="contact">
-      <div class="panel panel--left panel--wide contact" data-panel>
-        <div class="contact__head">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2 class="contact__title">Let's build something <span class="u-coral">awesome</span>!</h2>
-            <p class="lead">Tell me about your business. I reply within a day with ideas and a fixed quote.</p>
+        <div class="svc__stage" aria-hidden="true">
+          <div class="svc__panel" id="svcPanel">
+            <!-- websites: a business site taking an enquiry -->
+            <div class="spec is-on">
+              <div class="spec__bar"><span class="spec__dots"><i></i><i></i><i></i></span><span class="spec__url">malabarbakes.in</span></div>
+              <div class="site" data-in>
+                <p class="site__name">Malabar Bakes</p>
+                <p class="site__head">Fresh bakes,<br />at your door by nine.</p>
+                <span class="site__btn">Order now</span>
+              </div>
+              <div class="site__tiles" data-in><i></i><i></i><i></i></div>
+              <p class="toast" data-in><b>New enquiry</b> Cake for 30 guests, Saturday</p>
+            </div>
+            <!-- web apps: today's bookings -->
+            <div class="spec">
+              <div class="spec__bar"><b>Today's bookings</b><span>Sample data</span></div>
+              <table class="sheet" data-in>
+                <thead><tr><th>Time</th><th>Guest</th><th>Party</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr data-in><td>12:30</td><td>Anjali R.</td><td>2</td><td><span class="chip">Seated</span></td></tr>
+                  <tr data-in><td>13:00</td><td>Rahul M.</td><td>6</td><td><span class="chip chip--ink">Confirmed</span></td></tr>
+                  <tr data-in><td>19:30</td><td>Fathima K.</td><td>4</td><td><span class="chip chip--ink">Confirmed</span></td></tr>
+                  <tr data-in><td>20:15</td><td>Arjun P.</td><td>3</td><td><span class="chip chip--line">Waiting</span></td></tr>
+                </tbody>
+              </table>
+              <p class="spec__foot" data-in>4 bookings · 15 guests · 2 tables free at 20:00</p>
+            </div>
+            <!-- AI chatbots: a conversation at 11 at night -->
+            <div class="spec">
+              <div class="spec__bar"><b>Assistant</b><span>Online · 23:12</span></div>
+              <div class="talk">
+                <p class="talk__msg talk__msg--in" data-in>Are you open on Sunday?</p>
+                <p class="talk__msg talk__msg--out" data-in>Yes, 11 am to 10 pm. Shall I book a table?</p>
+                <p class="talk__msg talk__msg--in" data-in>Yes, 4 people at 8.</p>
+                <p class="talk__msg talk__msg--out" data-in>Done: table for 4, Sunday at 8 pm. See you then.</p>
+                <p class="talk__msg talk__msg--typing" data-in><i></i><i></i><i></i></p>
+              </div>
+            </div>
+            <!-- automation: one payment sets off the rest -->
+            <div class="spec">
+              <div class="spec__bar"><b>When an invoice is paid</b><span>Runs on its own</span></div>
+              <ol class="chain">
+                <li data-in><b>Payment received</b><span>₹18,500 · Invoice 1042</span></li>
+                <li data-in><b>Receipt emailed</b><span>to the client, as PDF</span></li>
+                <li data-in><b>Ledger updated</b><span>Google Sheet, row 214</span></li>
+                <li data-in><b>Follow-up set</b><span>reminder in 30 days</span></li>
+              </ol>
+            </div>
+            <!-- e-commerce: a cart and its order on the way -->
+            <div class="spec">
+              <div class="spec__bar"><b>Your order</b><span>Sample data</span></div>
+              <ul class="cart" data-in>
+                <li><span>Malabar chicken biryani × 2</span><b>₹440</b></li>
+                <li><span>Kerala parotta × 4</span><b>₹80</b></li>
+                <li><span>Fresh lime soda × 2</span><b>₹120</b></li>
+                <li class="cart__total"><span>Total</span><b>₹640</b></li>
+              </ul>
+              <ol class="track" data-in><li class="is-done">Placed</li><li class="is-done">Preparing</li><li>On the way</li></ol>
+            </div>
           </div>
-          <figure class="sticker"><img src="/photos/headphones.jpg" alt="Fasal wearing headphones" width="674" height="1200" /><figcaption>Ready when you are</figcaption></figure>
-        </div>
-
-        <div class="contact__grid">
-          <form class="form" id="contactForm" novalidate>
-            <!-- honeypot: hidden from people, bots tick it and their message is dropped -->
-            <input type="checkbox" name="botcheck" value="1" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px" />
-            <div class="form__row">
-              <label class="field"><span>Your name</span><input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Jane from Café Bloom" /></label>
-              <label class="field"><span>Email or phone</span><input id="f-email" name="email" type="text" required autocomplete="email" placeholder="you@business.com" /></label>
-            </div>
-            <label class="field"><span>Business name and type</span><input id="f-biz" name="business" type="text" autocomplete="organization" placeholder="Restaurant, clinic, shop…" /></label>
-            <fieldset class="chips">
-              <legend>I need</legend>
-              <label><input type="checkbox" name="need" value="Website" /><span>Website</span></label>
-              <label><input type="checkbox" name="need" value="Web app" /><span>Web app</span></label>
-              <label><input type="checkbox" name="need" value="AI chatbot" /><span>AI chatbot</span></label>
-              <label><input type="checkbox" name="need" value="Automation" /><span>Automation</span></label>
-              <label><input type="checkbox" name="need" value="E-commerce" /><span>E-commerce</span></label>
-              <label><input type="checkbox" name="need" value="Something else" /><span>Something else</span></label>
-            </fieldset>
-            <label class="field"><span>Tell me about your project</span><textarea id="f-msg" name="message" rows="4" required placeholder="What would you like to build?"></textarea></label>
-            <div class="form__foot">
-              <button type="submit" class="btn btn--coral">Send enquiry <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-              <p class="form__status" id="formStatus" role="status"></p>
-            </div>
-          </form>
-
-          <aside class="channels">
-            <div class="channel channel--email">
-              <span>Email</span>
-              <a href="mailto:fasalmuhammed387@gmail.com" id="emailText">fasalmuhammed387@gmail.com</a>
-              <button class="copy" id="copyEmail" type="button">Copy</button>
-            </div>
-            <a class="channel" href="tel:+917510117309"><span>Phone · WhatsApp</span><b>+91 75101 17309</b></a>
-            <a class="channel" href="https://www.linkedin.com/in/muhammed-fasal-v-4389b6267/" target="_blank" rel="noreferrer"><span>LinkedIn</span><b>Let's connect ↗</b></a>
-            <a class="channel" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer"><span>GitHub</span><b>See my code ↗</b></a>
-            <button class="channel channel--ai" type="button" data-open-chat><span>AI Assistant</span><b>Chat with my AI now →</b></button>
-          </aside>
         </div>
       </div>
+    </section>
+
+    <!-- ============ FAQ: questions that flip down like a departures board and unfold when opened ============ -->
+    <section class="faq" id="faq">
+      <div class="faq__head">
+        <h2 class="faq__title">Questions, answered</h2>
+        <p class="faq__lede">Short answers to what clients ask most. Anything else, <button type="button" class="faq__ask" data-open-chat data-cursor="Ask">ask my AI</button> or send an email.</p>
+      </div>
+      <ol class="faq__list">
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q1" aria-expanded="false" aria-controls="faq-a1"><span class="faq__n">01</span><span class="faq__text">What kind of projects do you take on?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div class="faq__in"><p>Business websites, web apps for booking, ordering and inventory, AI chatbots, automation and online stores. If it runs in a browser and saves your team time, it's a fit.</p></div></div>
+          </li>
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span class="faq__n">02</span><span class="faq__text">How long does a project take?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div class="faq__in"><p>A business website usually takes one to three weeks. Larger systems are split into milestones, with working software demoed every week and a fixed quote agreed in writing before any work starts.</p></div></div>
+          </li>
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span class="faq__n">03</span><span class="faq__text">Do I own the code?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div class="faq__in"><p>Yes. You get the full source code, the hosting and domain in your name, and the notes you need to run it.</p></div></div>
+          </li>
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span class="faq__n">04</span><span class="faq__text">Can you work with my existing website or system?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div class="faq__in"><p>Yes. I can extend, fix or modernise what you already have, or connect new tools to it, instead of rebuilding from scratch.</p></div></div>
+          </li>
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span class="faq__n">05</span><span class="faq__text">Do you work with clients outside Kerala?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div class="faq__in"><p>Yes. I'm based in Kozhikode and work remotely with clients anywhere, over calls, chat and regular progress updates.</p></div></div>
+          </li>
+          <li class="faq__item">
+            <h3><button class="faq__q" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span class="faq__n">06</span><span class="faq__text">Are you open to new opportunities?</span><span class="faq__plus" aria-hidden="true"></span></button></h3>
+            <div class="faq__a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div class="faq__in"><p>I work as a Junior Software Developer at Finprov Learning and take on freelance projects alongside it. I'm always glad to hear about the right opportunity, so send me an email.</p></div></div>
+          </li>
+      </ol>
+    </section>
+
+    <!-- ============ CONTACT: the ways to reach him beside a message form that goes to WhatsApp ============ -->
+    <section class="contact" id="contact">
+      <div class="contact__grid">
+        <div class="contact__copy">
+          <p class="caps contact__note"><b class="dot" aria-hidden="true"></b>Open to freelance projects</p>
+          <h2 class="contact__title">Let's build something great.</h2>
+          <p class="contact__lede">Have a project in mind, a collaboration idea, or just want to say hello? I'd love to hear from you.</p>
+          <ul class="reach" id="reach">
+            <li><a class="reach__row" href="mailto:fasalmuhammed387@gmail.com" data-cursor="Email"><span class="reach__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5h17a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Zm1.4 2 7.1 5.3 7.1-5.3H4.9Zm14.6 1.6-7 5.2a.85.85 0 0 1-1 0l-7-5.2v7.4h15V9.1Z"/></svg></span><span class="reach__text"><span class="caps">Email</span><b>fasalmuhammed387@<wbr />gmail.com</b></span><svg class="reach__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+            <li><a class="reach__row" href="tel:+917510117309" data-cursor="Call"><span class="reach__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6a1 1 0 0 1 1 .8l.7 3.4a1 1 0 0 1-.3.9l-1.8 1.7a12.6 12.6 0 0 0 4.9 4.9l1.7-1.8a1 1 0 0 1 .9-.3l3.4.7a1 1 0 0 1 .8 1v2.6a1.5 1.5 0 0 1-1.6 1.5A16.6 16.6 0 0 1 5.1 5.1 1.5 1.5 0 0 1 6.6 3.5Z"/></svg></span><span class="reach__text"><span class="caps">Phone · WhatsApp</span><b>+91 75101 17309</b></span><svg class="reach__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+            <li><a class="reach__row" href="https://www.linkedin.com/in/muhammed-fasal-v-4389b6267/" target="_blank" rel="noreferrer" data-cursor="Open"><span class="reach__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3.5a1.97 1.97 0 1 0 0 3.94 1.97 1.97 0 0 0 0-3.94ZM20.44 13.4c0-3.1-1.66-4.54-3.87-4.54-1.79 0-2.59.98-3.04 1.67V8.5h-3.37V20h3.37v-6.06c0-1.6.3-3.15 2.29-3.15 1.96 0 1.99 1.83 1.99 3.25V20h3.38v-6.6Z"/></svg></span><span class="reach__text"><span class="caps">LinkedIn</span><b>Muhammed Fasal V</b></span><svg class="reach__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+            <li><a class="reach__row" href="https://github.com/fasalmuhammed" target="_blank" rel="noreferrer" data-cursor="Open"><span class="reach__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a9.5 9.5 0 0 0-3 18.52c.47.09.65-.2.65-.46v-1.6c-2.64.58-3.2-1.27-3.2-1.27-.43-1.1-1.06-1.39-1.06-1.39-.86-.59.07-.58.07-.58.95.07 1.45.98 1.45.98.85 1.45 2.22 1.03 2.76.79.09-.61.33-1.03.6-1.27-2.11-.24-4.33-1.05-4.33-4.69 0-1.04.37-1.89.98-2.55-.1-.24-.42-1.21.09-2.52 0 0 .8-.26 2.61.97a9 9 0 0 1 4.75 0c1.81-1.23 2.61-.97 2.61-.97.51 1.31.19 2.28.09 2.52.61.66.98 1.51.98 2.55 0 3.65-2.22 4.45-4.34 4.68.34.3.65.88.65 1.78v2.64c0 .26.17.56.66.46A9.5 9.5 0 0 0 12 2.5Z"/></svg></span><span class="reach__text"><span class="caps">GitHub</span><b>fasalmuhammed</b></span><svg class="reach__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          </ul>
+          <div class="assist">
+            <span class="assist__icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 41 14.5v19L24 43 7 33.5v-19L24 5Zm0 0v19m0 0 17-9.5M24 24 7 14.5M24 24v19"/></svg></span>
+            <div class="assist__text"><p class="caps">Ask my AI assistant</p><p>Get instant answers about my work, experience and how we can work together.</p></div>
+            <button class="btn btn--small" type="button" data-open-chat data-cursor="Ask">Chat with my assistant <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
+          </div>
+        </div>
+
+        <form class="mailform" id="contactForm" novalidate>
+          <p class="caps mailform__note">Send a message</p>
+          <h3 class="mailform__title">Start a conversation</h3>
+          <p class="mailform__lede">Fill out the form and your message comes straight to my inbox. I reply within a day.</p>
+          <!-- honeypot: hidden from people, bots tick it and their message is dropped -->
+          <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="mailform__grid">
+            <label class="field"><span class="caps">Name</span><input name="name" type="text" autocomplete="name" placeholder="Your name" required /><small class="field__err" aria-live="polite"></small></label>
+            <label class="field"><span class="caps">Email</span><input name="email" type="email" autocomplete="email" placeholder="you@example.com" /><small class="field__err" aria-live="polite"></small></label>
+            <label class="field"><span class="caps">Phone</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91 ..." /><small class="field__err" aria-live="polite"></small></label>
+            <label class="field"><span class="caps">Subject</span>
+              <span class="field__select"><select name="subject">
+                <option>Project inquiry</option>
+                <option>Job opportunity</option>
+                <option>Collaboration</option>
+                <option>Just saying hello</option>
+              </select></span>
+            </label>
+            <label class="field field--wide"><span class="caps">Message</span><textarea name="message" rows="4" placeholder="Tell me about your project, idea or what you'd like to discuss..." required></textarea><small class="field__err" aria-live="polite"></small></label>
+          </div>
+          <button class="btn mailform__send is-mail" type="submit" data-cursor="Send"><span class="mailform__wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-3.27-2.86c-.25-.42.25-.39.7-1.3.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46a.9.9 0 0 0-.64.3 2.7 2.7 0 0 0-.84 2c0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64 1.53.66 2.13.72 2.9.6.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg></span><span id="sendLabel">Send message</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
+          <p class="mailform__status" id="formStatus" role="status" aria-live="polite"></p>
+          <p class="mailform__foot">Prefer WhatsApp? <a href="https://wa.me/917510117309" target="_blank" rel="noreferrer" data-cursor="WhatsApp">Message me directly</a></p>
+        </form>
+      </div>
+
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__big" aria-hidden="true">FASAL</div>
-    <div class="footer__row">
-      <span>© <span id="year">2026</span> Muhammed Fasal V</span>
-      <span>Made with code &amp; curls in Kozhikode, Kerala</span>
-      <a href="#top">Back to top ↑</a>
-    </div>
-  </footer>
-
-  <!-- ============ AI CHAT ============ -->
-  <button class="chat-fab" id="chatFab" aria-label="Open AI assistant">
-    <img src="/fasal/smile.png" alt="" width="64" height="64" />
-    <span class="chat-fab__label">Ask my AI</span>
-  </button>
+  <!-- ============ AI ASSISTANT ============ -->
+  <button class="chat-fab btn" id="chatFab" type="button" aria-label="Open AI assistant" data-cursor="Ask">Ask my AI</button>
   <div class="chat" id="chat" role="dialog" aria-label="Fasal's AI assistant" aria-hidden="true">
     <div class="chat__head">
-      <img src="/fasal/smile.png" alt="" width="44" height="44" />
-      <div><b>Fasal's AI Assistant</b><span><i></i>Online</span></div>
-      <button class="chat__close" id="chatClose" aria-label="Close chat">✕</button>
+      <div><b>Fasal's AI assistant</b><span>Projects, skills and availability</span></div>
+      <button class="chat__close" id="chatClose" type="button">Close</button>
     </div>
     <div class="chat__body" id="chatBody">
-      <div class="msg msg--bot">Hi! I'm Fasal's AI assistant. Ask me about his projects, skills, pricing or availability.</div>
+      <div class="msg msg--bot">Hi, I'm Fasal's AI assistant. Ask me about his projects, skills, pricing or availability.</div>
     </div>
     <div class="chat__chips" id="chatChips">
       <button type="button">What can you build for my business?</button>
@@ -388,11 +414,11 @@
       <button type="button">Are you available?</button>
     </div>
     <form class="chat__form" id="chatForm">
-      <input id="chatInput" type="text" placeholder="Type your question…" autocomplete="off" aria-label="Message" />
-      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <input id="chatInput" type="text" placeholder="Type your question" autocomplete="off" aria-label="Message" />
+      <button type="submit">Send</button>
     </form>
   </div>
 
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/pro/pro.js"></script>
 </body>
 </html>
