@@ -152,7 +152,11 @@ ul { padding: 0; list-style: none; }
 .about__statement .line__in { display: inline-block; transform-origin: 50% 0%; }
 
 /* ---------- Experience: a ruled timeline, then the toolkit and certifications ---------- */
-.exp { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 4vh 6vw; padding: 18vh var(--m) 16vh; background: var(--wall); }
+.exp { padding: 18vh var(--m) 16vh; background: var(--wall); }
+.exp__main { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 4vh 6vw; }
+/* the heading rides along under the nav while the timeline scrolls past it */
+.exp__head { position: sticky; top: calc(calc(80px * var(--z)) + 8vh); align-self: start; }
+.exp__cv { margin-top: 4vh; }
 .exp__title { font-family: var(--serif); font-optical-sizing: auto; font-weight: 400; font-size: clamp(3rem, 1.4rem + 5vw, 7rem); line-height: 0.92; margin-bottom: 4vh; }
 .exp__sub { max-width: 30ch; font-weight: 500; letter-spacing: 0.03em; line-height: 1.8; color: var(--ink-soft); }
 .exp__list { list-style: none; padding: 0; perspective: 1200px; border-bottom: 1px solid rgba(29, 27, 24, 0.2); }
@@ -161,7 +165,7 @@ ul { padding: 0; list-style: none; }
 .exp__role { font-family: var(--serif); font-weight: 400; font-size: clamp(1.5rem, 1rem + 1.2vw, 2.4rem); line-height: 1.1; }
 .exp__org { margin-top: calc(6px * var(--z)); font-weight: 600; letter-spacing: 0.04em; color: var(--ink-soft); }
 .exp__text { max-width: 60ch; margin-top: calc(14px * var(--z)); font-weight: 500; line-height: 1.7; color: var(--ink-soft); }
-.exp__extra { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: 6vw; margin-top: 8vh; }
+.exp__extra { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: 6vw; margin-top: 8vh; }
 .kit__title { margin-bottom: calc(18px * var(--z)); font-size: calc(11px * var(--z)); color: var(--ink-soft); }
 .kit__list { margin: 0; }
 .kit__list div { display: grid; grid-template-columns: calc(180px * var(--z)) minmax(0, 1fr); gap: calc(20px * var(--z)); padding: calc(14px * var(--z)) 0; border-top: 1px solid rgba(29, 27, 24, 0.14); }
@@ -450,8 +454,8 @@ ul { padding: 0; list-style: none; }
   .hero__copy { top: 22vh; width: 58vw; }
   .hero__photo { right: 0; height: min(64vh, 70vw); }
   .disc { left: 46%; top: 42%; width: 52vw; }
-  .faq, .contact__grid, .exp, .exp__extra { grid-template-columns: minmax(0, 1fr); }
-  .faq__head { position: static; }
+  .faq, .contact__grid, .exp__main, .exp__extra { grid-template-columns: minmax(0, 1fr); }
+  .faq__head, .exp__head { position: static; }
 }
 
 /* ---------- Phone ---------- */

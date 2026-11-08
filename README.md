@@ -48,9 +48,19 @@ Until the key is set, or if sending fails, the visitor's email app opens with th
 Each form has a hidden spam-trap checkbox (`botcheck`), so messages from bots that tick it are dropped.
 
 ## AI assistant
-Calls `https://portfolio-website-4ahq.onrender.com/api/chat`. To change it, create `.env` with
-`VITE_API_BASE_URL=https://your-backend.com`.
+`src/chat.js` posts to the site's own Vercel function, `api/chat.js`. The function answers with Groq, using only the
+knowledge in `api/_knowledge.js` (the CV plus site facts). When it doesn't know something, it points the visitor to
+email or WhatsApp instead of saying "I don't know".
+
+- Set `GROQ_API_KEY` in Vercel → Project → Settings → Environment Variables, then redeploy. `GROQ_MODEL` is optional.
+  If a model is retired, the function moves on to the next one in its list.
+- When the CV changes, update `api/_knowledge.js` and `public/cv/Muhammed-Fasal-V-CV.pdf` together.
+- The Vite dev server has no `/api`. To use the live assistant while developing, put
+  `VITE_API_BASE_URL=https://www.fasalmuhammed.in` in `.env`.
+
+## CV download
+The "Download CV" buttons serve `public/cv/Muhammed-Fasal-V-CV.pdf`. Replace that file, keeping the name, to update it.
 
 ## Still to do
 - Swap the SmartWear and i-Dine "GitHub" links (currently the profile URL) for the real repo URLs. The two freelance projects are private client code and show "Client project" instead.
-- Update the AI assistant's knowledge on the backend: it still describes the old projects (Kidney Allocation, Hostel Allocation) and doesn't know about Finprov or the freelance work.
+- The old Render backend (repo `Portfolio-Website`) is no longer used and can be shut down.

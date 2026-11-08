@@ -1,5 +1,6 @@
-// Floating AI assistant, talks to the existing FastAPI backend from the old portfolio
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'https://portfolio-website-4ahq.onrender.com').replace(/\/$/, '')
+// Floating AI assistant. It talks to the site's own serverless function (api/chat.js), which answers from Fasal's CV.
+// The Vite dev server has no /api, so for local testing set VITE_API_BASE_URL=https://www.fasalmuhammed.in in .env.
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
 
 export function initChat({ lenis } = {}) {
   const chat = document.getElementById('chat')
@@ -52,13 +53,13 @@ export function initChat({ lenis } = {}) {
       })
       const data = (res.headers.get('content-type') || '').includes('application/json') ? await res.json() : null
       if (!res.ok || !data) throw new Error(data?.detail || `Status ${res.status}`)
-      const reply = data.reply || "I couldn't find an answer to that. Try asking another way."
+      const reply = data.reply || "That's one for Fasal himself: email fasalmuhammed387@gmail.com or WhatsApp +91 75101 17309."
       typing.remove()
       add(reply, 'bot')
       history.push({ role: 'user', content: text }, { role: 'assistant', content: reply })
     } catch (err) {
       typing.remove()
-      add('The assistant is waking up or offline right now. Please try again in a moment, or email fasalmuhammed387@gmail.com.', 'bot')
+      add("I can't answer right now, but Fasal can: email fasalmuhammed387@gmail.com or WhatsApp +91 75101 17309, or use the contact form on this page.", 'bot')
       console.warn('Chat error:', err)
     } finally {
       busy = false

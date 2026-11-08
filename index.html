@@ -81,7 +81,7 @@
           <p class="hero__lede">I build websites, web apps and AI that connect businesses with their people.</p>
           <p class="hero__actions">
             <a class="btn" href="#work" data-cursor="Work">View my work<svg viewBox="0 0 28 12" aria-hidden="true"><path d="M0 6h26M21 1l5 5-5 5"/></svg></a>
-            <a class="line-link" href="#about"><i aria-hidden="true"></i>About me</a>
+            <a class="line-link" href="/cv/Muhammed-Fasal-V-CV.pdf" download data-cursor="CV"><i aria-hidden="true"></i>Download CV</a>
           </p>
         </div>
         <svg class="layer plant" data-depth="160" viewBox="0 0 400 420" aria-hidden="true">
@@ -106,9 +106,12 @@
 
     <!-- ============ EXPERIENCE: a timeline that unfolds as you read, with education and skills beside it ============ -->
     <section class="exp" id="experience">
+      <!-- the heading stays in view while the timeline beside it scrolls -->
+      <div class="exp__main">
       <div class="exp__head">
         <h2 class="exp__title">Experience</h2>
         <p class="exp__sub">Where I work, what I've studied, and the tools I use every day.</p>
+        <a class="btn btn--small exp__cv" href="/cv/Muhammed-Fasal-V-CV.pdf" download data-cursor="CV">Download CV <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg></a>
       </div>
       <ol class="exp__list">
         <li class="exp__item">
@@ -142,6 +145,7 @@
           </div>
         </li>
       </ol>
+      </div>
       <div class="exp__extra">
         <div class="kit">
           <h3 class="caps kit__title">Toolkit</h3>
@@ -406,12 +410,12 @@
       <button class="chat__close" id="chatClose" type="button">Close</button>
     </div>
     <div class="chat__body" id="chatBody">
-      <div class="msg msg--bot">Hi, I'm Fasal's AI assistant. Ask me about his projects, skills, pricing or availability.</div>
+      <div class="msg msg--bot">Hi, I'm Fasal's AI assistant. Ask me about his experience, projects, skills or how to work with him.</div>
     </div>
     <div class="chat__chips" id="chatChips">
-      <button type="button">What can you build for my business?</button>
-      <button type="button">Tell me about SmartWear</button>
-      <button type="button">Are you available?</button>
+      <button type="button">What does Fasal do at Finprov?</button>
+      <button type="button">Tell me about his freelance work</button>
+      <button type="button">Can he build an app for my business?</button>
     </div>
     <form class="chat__form" id="chatForm">
       <input id="chatInput" type="text" placeholder="Type your question" autocomplete="off" aria-label="Message" />

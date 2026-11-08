@@ -304,7 +304,7 @@ function scenes() {
   gsap.from('.about__title', { y: 20, opacity: 0, duration: 1, ease: EXPO, scrollTrigger: { trigger: '.about', start: 'top 90%', once: true } })
 
   // EXPERIENCE: the title rises and each entry flips down from its rule, like the FAQ board
-  gsap.from('.exp__title, .exp__sub', { rotationX: -80, y: 60, opacity: 0, transformOrigin: '50% 100%', transformPerspective: 1000, duration: 1.4, ease: EXPO, stagger: 0.1, scrollTrigger: { trigger: '.exp', start: 'top 70%', once: true } })
+  gsap.from('.exp__title, .exp__sub, .exp__cv', { rotationX: -80, y: 60, opacity: 0, transformOrigin: '50% 100%', transformPerspective: 1000, duration: 1.4, ease: EXPO, stagger: 0.1, scrollTrigger: { trigger: '.exp', start: 'top 70%', once: true } })
   $$('.exp__item').forEach((item) => gsap.from(item, { rotationX: -70, y: 30, opacity: 0, transformPerspective: 1200, duration: 1.2, ease: EXPO, scrollTrigger: { trigger: item, start: 'top 88%', once: true } }))
   gsap.from('.kit', { y: 50, opacity: 0, duration: 1.3, ease: EXPO, stagger: 0.12, scrollTrigger: { trigger: '.exp__extra', start: 'top 85%', once: true } })
 
