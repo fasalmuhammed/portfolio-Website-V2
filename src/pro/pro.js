@@ -355,53 +355,6 @@ function chrome() {
   park()
 }
 
-/* ---------------- Cursor: a spinning wireframe cube with a trail ---------------- */
-function initCursor() {
-  if (!finePointer || reduced) return
-  document.documentElement.classList.add('has-cursor')
-  const wrap = document.createElement('div')
-  wrap.className = 'cursor'
-  wrap.setAttribute('aria-hidden', 'true')
-  wrap.innerHTML = '<div class="cursor__cube"><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="cursor__label"></span>'
-  const trail = document.createElement('canvas')
-  trail.className = 'trail'
-  trail.setAttribute('aria-hidden', 'true')
-  document.body.append(trail, wrap)
-  const cube = $('.cursor__cube', wrap), label = $('.cursor__label', wrap), ctx = trail.getContext('2d')
-  const fit = () => { const r = Math.min(devicePixelRatio, 2); trail.width = innerWidth * r; trail.height = innerHeight * r; ctx.setTransform(r, 0, 0, r, 0, 0) }
-  fit(); addEventListener('resize', fit)
-  const pos = { x: innerWidth / 2, y: innerHeight / 2 }, last = { x: 0, y: 0 }, points = []
-  const qx = gsap.quickTo(wrap, 'x', { duration: 0.26, ease: 'power3.out' }), qy = gsap.quickTo(wrap, 'y', { duration: 0.26, ease: 'power3.out' })
-  let speed = 0, rx = 20, ry = 30
-  addEventListener('pointermove', (e) => { pos.x = e.clientX; pos.y = e.clientY; qx(pos.x); qy(pos.y); wrap.classList.add('is-on'); points.push({ x: pos.x, y: pos.y, t: performance.now() }) })
-  document.addEventListener('pointerleave', () => wrap.classList.remove('is-on'))
-  addEventListener('pointerdown', () => wrap.classList.add('is-down'))
-  addEventListener('pointerup', () => wrap.classList.remove('is-down'))
-  document.addEventListener('pointerover', (e) => {
-    const t = e.target instanceof Element ? e.target.closest('a, button, [data-cursor], input') : null
-    wrap.classList.toggle('is-link', !!t && !t.matches('input'))
-    label.textContent = t ? t.dataset.cursor || (t.matches('a') ? 'Open' : '') : ''
-  })
-  gsap.ticker.add(() => {
-    const dx = pos.x - last.x, dy = pos.y - last.y
-    last.x = pos.x; last.y = pos.y
-    speed += (Math.hypot(dx, dy) - speed) * 0.2
-    rx += 0.7 + speed * 0.35 + dy * 0.4
-    ry += 1 + speed * 0.45 + dx * 0.4
-    cube.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`
-    const now = performance.now()
-    while (points.length && now - points[0].t > 320) points.shift()
-    ctx.clearRect(0, 0, innerWidth, innerHeight)
-    for (let i = 1; i < points.length; i++) {
-      const a = points[i - 1], b = points[i], life = 1 - (now - b.t) / 320
-      ctx.strokeStyle = `rgba(233, 227, 217, ${(life * 0.8).toFixed(3)})`
-      ctx.lineWidth = Math.max(0.4, life * 2.4)
-      ctx.lineCap = 'round'
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke()
-    }
-  })
-}
-
 /* ---------------- Boot ---------------- */
 const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve()
 fontsReady.then(() => {
@@ -413,7 +366,6 @@ fontsReady.then(() => {
     heroIntro()
     heroTilt()
     scenes()
-    initCursor()
     initButtons()
   }
   // created after the pinned scenes, so their positions include the pin spacing

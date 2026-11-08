@@ -338,9 +338,6 @@ html.js [data-reveal] { opacity: 0; transform: translateY(40px); }
 .msg--typing span { display: inline-block; width: 7px; height: 7px; margin: 0 2px; border-radius: 50%; background: var(--ink); animation: dotty 1s infinite; }
 .msg--typing span:nth-child(2) { animation-delay: 0.15s; } .msg--typing span:nth-child(3) { animation-delay: 0.3s; }
 @keyframes dotty { 50% { transform: translateY(-5px); } }
-.chat__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
-.chat__chips button { font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 99px; border: 2.5px solid var(--ink); background: var(--white); }
-.chat__chips button:hover { background: var(--sun); }
 .chat__form { display: flex; gap: 8px; padding: 12px; border-top: var(--line); background: var(--white); }
 .chat__form input { flex: 1; min-width: 0; font: inherit; font-size: 14.5px; border: var(--line); border-radius: 14px; padding: 10px 14px; outline: none; color: var(--ink); }
 .chat__form button { width: 46px; flex: 0 0 46px; border-radius: 14px; background: var(--coral); border: var(--line); color: var(--white); display: grid; place-items: center; box-shadow: 0 3px 0 var(--ink); }

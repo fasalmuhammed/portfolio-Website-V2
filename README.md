@@ -21,7 +21,7 @@ Every visit to `https://fasalmuhammed.in` opens professional mode. The toggle in
 |---|---|
 | `index.html` | Professional page (homepage): editorial hero (wall, circle, portrait, FASAL), about, experience (timeline, toolkit, certifications), 3D project coverflow, services, FAQ, contact |
 | `src/pro/pro.css` | Its styles: beige/stone/charcoal, Gloock + Manrope (self-hosted via `@fontsource`) |
-| `src/pro/pro.js` | Lenis + GSAP ScrollTrigger: hero 3D intro and mouse depth, scroll scenes, coverflow, cube cursor, contact form (emails leads via `src/lead.js`) |
+| `src/pro/pro.js` | Lenis + GSAP ScrollTrigger: hero 3D intro and mouse depth, scroll scenes, coverflow, contact form (emails leads via `src/lead.js`) |
 | `public/images/fasal-hero.webp` | The hero cut-out. Replace with a transparent WebP of the same framing to update it |
 | `PRODUCT.md`, `.impeccable/` | Product notes and design records used by the Impeccable skill |
 

@@ -8,7 +8,6 @@ export function initChat({ lenis } = {}) {
   const body = document.getElementById('chatBody')
   const form = document.getElementById('chatForm')
   const input = document.getElementById('chatInput')
-  const chips = document.getElementById('chatChips')
   const history = []
   let busy = false
 
@@ -39,7 +38,6 @@ export function initChat({ lenis } = {}) {
     text = text.trim()
     if (!text || busy) return
     busy = true
-    chips.hidden = true
     add(text, 'me')
     input.value = ''
     const typing = add('', 'bot')
@@ -67,5 +65,4 @@ export function initChat({ lenis } = {}) {
   }
 
   form.addEventListener('submit', (e) => { e.preventDefault(); send(input.value) })
-  chips.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => send(b.textContent)))
 }

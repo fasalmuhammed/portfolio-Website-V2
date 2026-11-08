@@ -389,28 +389,6 @@ ul { padding: 0; list-style: none; }
 .foot__links span { color: var(--on-dark-soft); }
 .foot__legal { font-size: calc(12px * var(--z)); letter-spacing: 0.06em; color: var(--on-dark-soft); }
 
-/* ---------- Cursor: a spinning wireframe cube with an ink trail (fine pointers only) ---------- */
-.has-cursor, .has-cursor * { cursor: none !important; }
-.has-cursor input, .has-cursor textarea { cursor: text !important; }
-.cursor { position: fixed; left: 0; top: 0; z-index: 100; width: 0; height: 0; pointer-events: none; perspective: 260px; color: var(--wall); mix-blend-mode: difference; opacity: 0; transition: opacity 300ms ease; }
-.cursor.is-on { opacity: 1; }
-.cursor__cube { position: absolute; left: -8px; top: -8px; width: calc(16px * var(--z)); height: calc(16px * var(--z)); transform-style: preserve-3d; transition: scale 420ms var(--ease); }
-.cursor__cube i { position: absolute; inset: 0; border: 1px solid currentColor; }
-.cursor__cube i:nth-child(1) { transform: translateZ(calc(8px * var(--z))); }
-.cursor__cube i:nth-child(2) { transform: rotateY(180deg) translateZ(calc(8px * var(--z))); }
-.cursor__cube i:nth-child(3) { transform: rotateY(90deg) translateZ(calc(8px * var(--z))); }
-.cursor__cube i:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(8px * var(--z))); }
-.cursor__cube i:nth-child(5) { transform: rotateX(90deg) translateZ(calc(8px * var(--z))); }
-.cursor__cube i:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(8px * var(--z))); }
-.cursor.is-link .cursor__cube { scale: 2.2; }
-.cursor.is-down .cursor__cube { scale: 0.7; }
-.cursor__label {
-  position: absolute; left: calc(32px * var(--z)); top: calc(14px * var(--z)); font-size: calc(10px * var(--z)); letter-spacing: 0.32em; text-transform: uppercase; white-space: nowrap;
-  opacity: 0; transform: translateX(-6px); transition: opacity 260ms ease, transform 360ms var(--ease);
-}
-.cursor.is-link .cursor__label:not(:empty) { opacity: 1; transform: none; }
-.trail { position: fixed; inset: 0; z-index: 99; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: difference; }
-
 /* ---------- AI assistant ---------- */
 .chat-fab { position: fixed; right: var(--m); bottom: calc(32px * var(--z)); z-index: 30; min-height: calc(48px * var(--z)); padding: 0 calc(24px * var(--z)); transition: opacity 300ms ease, transform 420ms var(--ease), background-color 260ms ease; }
 .chat-fab.is-hidden, .chat-fab.is-parked { opacity: 0; pointer-events: none; transform: translateY(calc(16px * var(--z))); }
@@ -433,9 +411,6 @@ ul { padding: 0; list-style: none; }
 .msg--typing span:nth-child(2) { animation-delay: 0.15s; }
 .msg--typing span:nth-child(3) { animation-delay: 0.3s; }
 @keyframes typing { 50% { opacity: 0.3; transform: translateY(-3px); } }
-.chat__chips { display: flex; flex-wrap: wrap; gap: calc(8px * var(--z)); padding: 0 calc(20px * var(--z)) calc(12px * var(--z)); }
-.chat__chips button { padding: calc(8px * var(--z)) calc(12px * var(--z)); border: 0; background: var(--wall); font-size: calc(13px * var(--z)); transition: background-color 200ms ease; }
-.chat__chips button:hover { background: var(--stone); }
 .chat__form { display: flex; gap: calc(8px * var(--z)); padding: calc(12px * var(--z)) calc(20px * var(--z)) calc(18px * var(--z)); }
 .chat__form input { flex: 1; min-width: 0; min-height: calc(46px * var(--z)); padding: 0 calc(14px * var(--z)); border: 0; background: #ffffff; box-shadow: inset 0 0 0 1px rgba(29, 27, 24, 0.2); font: inherit; font-size: calc(15px * var(--z)); color: var(--ink); }
 .chat__form input:focus { outline: none; box-shadow: inset 0 0 0 1px var(--ink); }
