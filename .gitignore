@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+
+# local tooling and design-review captures (not needed to build the site)
+.claude
+.impeccable
+.taste-skill
+
+# original photos; the processed versions the site uses live in public/
+Assets
